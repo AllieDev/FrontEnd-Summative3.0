@@ -2,16 +2,21 @@
   <div class="view">
     <div class="search-event__mobile">
       <div class="search-event__container">
-        <h3>Find Events</h3>
-        <select name="type-of-events" id="search-events">
-          <option selected value="all-events">All Events</option>
-          <option value="concerts">Concerts</option>
-          <option value="exhibitions">Exhibitions</option>
-          <option value="festivals">Festivals</option>
-          <option value="sports">Sports</option>
-          <option value="workshop">Workshop</option>
-          <option value="conferences">Conferences</option>
-        </select>
+        <h3>find events</h3>
+        <div class="search-event__sub-container">
+          <div class="search-event__options">
+            <p>all events</p>
+            <i @click="toggleDropdown" class="fas fa-caret-down"></i>
+          </div>
+          <div v-if="isDropdown" class="search-event__dropdown">
+            <p>concerts</p>
+            <p>exhibiitions</p>
+            <p>festivals</p>
+            <p>sports</p>
+            <p>workshop</p>
+            <p>conferences</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -34,10 +39,13 @@ import GlobalEventList from "../components/GlobalEventList.vue";
 export default {
   components: { GlobalEventList },
   data() {
-    return {};
+    return { isDropdown: true };
   },
   props: ["eData"],
   methods: {
+    toggleDropdown() {
+      this.isDropdown = !this.isDropdown;
+    },
     sendEventData(data) {
       this.$emit("specificEventDetail", data);
     },
@@ -70,7 +78,6 @@ export default {
   max-width: 1200px;
   margin: auto;
   margin-top: 9rem;
-  /* border: solid 1px #000; */
 }
 
 .search-event__container h3 {
@@ -78,16 +85,45 @@ export default {
   text-transform: uppercase;
 }
 
-.search-event__container select {
-  width: 25%;
-  margin-left: 3rem;
-  padding: 0.6rem 1rem;
+.search-event__container p {
+  width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
+  cursor: pointer;
+}
+.search-event__sub-container {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px #000;
+  margin-left: 2rem;
+  position: relative;
 }
 
-.navbar__help-icon {
-  visibility: hidden;
+.search-event__options {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 1.5rem;
+}
+
+.search-event__options p {
+  margin-right: 15rem;
+}
+
+.search-event__dropdown {
+  background-color: #fff;
+  position: absolute;
+  top: 35px;
+  z-index: 1;
+  border: solid 1px #000;
+}
+
+.search-event__dropdown p {
+  width: 100%;
+  padding: 1rem 15.8rem 1rem 1rem;
+}
+
+.search-event__dropdown p:hover {
+  background-color: lightgray;
 }
 
 .event-list__container {
@@ -97,7 +133,6 @@ export default {
   max-width: 1200px;
   margin: auto;
   margin-bottom: 10rem;
-  /* border: solid 1px greenyellow; */
 }
 
 .event-list__event-cards {
@@ -107,7 +142,6 @@ export default {
   margin-top: 10rem;
   max-width: 1100px;
   position: relative;
-  /* border: solid 1px blue; */
 }
 
 .event-list__header {
@@ -120,10 +154,8 @@ export default {
 /* Landscape Tablet to Small Laptop 848px ~ 1403px */
 @media only screen and (max-width: 1403px) {
   .search-event__container {
-    margin: 9rem 15rem 8rem;
-  }
-  .search-event__container select {
-    width: 30%;
+    justify-content: flex-start;
+    margin: 9rem 5rem 8rem;
   }
 }
 /* Landscape Mobile to Portrait Tablet 404px ~ 847px */
@@ -132,21 +164,28 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 5rem 5rem 0rem;
-  }
-
-  .navbar__help-icon {
-    visibility: visible;
-    padding: 0.8rem 1.25rem;
-    border: solid 1px #000;
-    border-radius: 30px;
-    cursor: pointer;
+    margin: 5rem 7rem 0rem;
   }
   .search-event__container {
     margin: 8rem 0rem 8rem;
   }
-  .search-event__container select {
-    width: 50%;
+
+  .search-event__options p {
+    margin-right: 10.9rem;
+  }
+
+  .search-event__dropdown {
+    background-color: #fff;
+    position: absolute;
+    top: 37px;
+    z-index: 1;
+    /* padding: 1rem 10.3rem 1rem 1.45rem; */
+    border: solid 1px #000;
+  }
+
+  .search-event__dropdown p {
+    width: 100%;
+    padding: 1rem 11.7rem 1rem 1rem;
   }
   .event-list__event-cards {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -165,14 +204,30 @@ export default {
   .search-event__container {
     justify-content: flex-start;
   }
-  .search-event__container h3 {
-    font-size: 1.6rem;
+
+  .search-event__sub-container {
+    margin-left: 0;
+  }
+  .search-event__options p {
+    margin-right: 5.2rem;
   }
 
-  .search-event__container select {
-    width: 50%;
-    margin-left: 1rem;
-    padding: 0.6rem 0.7rem;
+  .search-event__dropdown {
+    background-color: #fff;
+    position: absolute;
+    top: 55px;
+    z-index: 1;
+    border: solid 1px #000;
+  }
+
+  .search-event__dropdown p {
+    width: 100%;
+    padding: 1rem 3.1rem 1rem 1.5rem;
+  }
+
+  .search-event__container h3 {
+    font-size: 1.3rem;
+    margin-right: 1rem;
   }
 
   .event-list__event-cards {
