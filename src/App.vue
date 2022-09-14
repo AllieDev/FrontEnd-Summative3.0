@@ -129,6 +129,7 @@ import GlobalSearchIconVue from "./components/icons/GlobalSearchIcon.vue";
 import GlobalHelpIconVue from "./components/icons/GlobalHelpIcon.vue";
 import GlobalArrowIconVue from "./components/icons/GlobalArrowIcon.vue";
 import GlobalMenuIconVue from "./components/icons/GlobalMenuIcon.vue";
+import router from "./router";
 
 export default {
   components: {
