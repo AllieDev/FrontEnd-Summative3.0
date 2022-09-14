@@ -40,7 +40,6 @@ export default {
   justify-content: center;
   align-items: center;
   min-width: 450px;
-  /* border: 10px solid red; */
 }
 
 .event-card__background {
@@ -99,6 +98,9 @@ export default {
 
 /* Portrait Mobile 0px ~ 414px */
 @media only screen and (max-width: 414px) {
+  .event-card__container {
+    min-width: 300px;
+  }
   .event-card__contents--details {
     -webkit-line-clamp: 3;
   }
