@@ -105,6 +105,7 @@
         @unvisibleNav="makeNavUnvisible"
         @visibleNav="makeNavVisible"
         @specificEventDetail="getSpecificEventDetail"
+        @loginRequest="submitLoginRequest"
       />
     </div>
     <!-- For Development Only -->
@@ -183,11 +184,13 @@ export default {
     showSearchInput() {
       this.isSearchInputAvailable = true;
     },
+    // ----------------------------------------------------------------
     async getListOfAllEventsRequest() {
       const response = await fetch("http://localhost:3000/events");
       const data = await response.json();
       this.eventData = data;
     },
+    // ----------------------------------------------------------------
     async getSpecificEventDetail(data) {
       const response = await fetch(`http://localhost:3000/events/${data._id}`);
 
@@ -201,6 +204,22 @@ export default {
 
       console.log(this.specificEventDetail);
       router.push("/event-detail");
+    },
+    // ----------------------------------------------------------------
+    async submitLoginRequest(loginData) {
+      const response = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      });
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      if (data.token) {
+        this.userData = data;
+        this.isUserLogedIn = true;
+        this.$router.replace("/");
+      }
+      this.getListOfAllEventsRequest();
     },
     // ----------------------------------------------------------------
   },
