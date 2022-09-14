@@ -18,14 +18,16 @@
     <div class="event-list__container">
       <div class="event-list__event-cards">
         <h3 class="event-list__header">All Events</h3>
+        <!-- <global-event-list /> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import GlobalEventList from "../components/GlobalEventList.vue";
 export default {
-  components: {},
+  components: { GlobalEventList },
   data() {
     return {};
   },
