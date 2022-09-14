@@ -1,14 +1,24 @@
 <template>
   <div class="event-card__container">
     <img
+      :src="`data:image/jpeg;base64,${eData.imageFile.data}`"
+      v-if="eData.imageFile"
+      class="event-card__background"
+    />
+    <img
+      v-else
       src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw3MjAxN3wwfDF8c2VhcmNofDN8fGV2ZW50fGVufDB8MHx8fDE2NjI0Mjg0MTA&ixlib=rb-1.2.1&q=80&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450"
       class="event-card__background"
     />
     <div class="event-card__contents">
-      <p class="event-card__contents--date">Event Date</p>
-      <h3 class="event-card__contents--title">Event Title</h3>
-      <p class="event-card__contents--details">Event Detail</p>
-      <p class="event-card__contents--place">Auckland</p>
+      <p class="event-card__contents--date">{{ eData.date }}</p>
+      <h3 class="event-card__contents--title">
+        {{ eData.title }}
+      </h3>
+      <p class="event-card__contents--details">
+        {{ eData.detail }}
+      </p>
+      <p class="event-card__contents--place">{{ eData.location }}</p>
       <a href="#">more</a>
     </div>
   </div>
@@ -19,7 +29,7 @@ export default {
   data() {
     return {};
   },
-  props: [],
+  props: ["eData"],
 };
 </script>
 
