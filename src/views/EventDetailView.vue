@@ -88,7 +88,9 @@
               placeholder="WRITE YOUR COMMENT HERE"
               type="text"
             />
-            <button class="post" type="button">POST</button>
+            <button @click="sendCommentPostRequest" class="post" type="button">
+              POST
+            </button>
           </div>
         </div>
 
@@ -159,9 +161,28 @@ export default {
     goBack() {
       router.back();
     },
-    created() {
-      this.$emit("unvisibleSearchInput");
+    async sendCommentPostRequest() {
+      console.log("sending comment post request");
+      console.log(this.commentInput);
+      const response = await fetch(
+        `http://localhost:3000/events/${this.$props.seData.eventData._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            comment: this.commentInput,
+          }),
+        }
+      );
+      const data = await response.json();
+      alert(data.message);
     },
+  },
+  created() {
+    this.$emit("unvisibleSearchInput");
   },
 };
 </script>
