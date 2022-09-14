@@ -1,5 +1,5 @@
 <template>
-  <div class="view">
+  <div v-if="seData !== null" class="view">
     <button class="back__button"></button>
 
     <div class="detail__heading">
@@ -8,9 +8,11 @@
       </div>
 
       <div class="detail__boxx">
-        <h3 class="time__date">Date & Time</h3>
-        <h1 class="event__title">Title</h1>
-        <h4 class="event__location">Location</h4>
+        <h3 class="time__date">
+          {{ seData.eventData.date + " -- " + seData.eventData.time }}
+        </h3>
+        <h1 class="event__title">{{ seData.eventData.title }}</h1>
+        <h4 class="event__location">{{ seData.eventData.location }}</h4>
       </div>
     </div>
 
@@ -24,35 +26,51 @@
           <div class="avatar__container">
             <div class="avatar__cricle-heading-container">
               <div class="avatar__circle">
-                <!-- <global-user-icon-vue /> -->
+                <global-user-icon-vue :uData="seData.specificData.hostInfo" />
               </div>
               <div class="avatar__headings">
                 <h5 class="hosted__by">HOSTED BY</h5>
-                <h3 class="host__name">FirstName & LastName</h3>
+                <h3 class="host__name">
+                  {{
+                    seData.specificData.hostInfo.firstName +
+                    " " +
+                    seData.specificData.hostInfo.lastName
+                  }}
+                </h3>
               </div>
             </div>
             <div class="attend--edit__container">
               <button class="attend__event" type="button">ATTEND</button>
-              <button class="edit__event" type="button">EDIT</button>
+              <button
+                v-if="seData.eventData.hostId == uData._id"
+                class="edit__event"
+                type="button"
+              >
+                EDIT
+              </button>
             </div>
           </div>
         </div>
 
         <div class="detail__image">
-          <!-- <img
-            class="details__image"
-		        src=""
-            alt=""
-          /> -->
           <img
+            v-if="seData.eventData.imageFile"
+            class="details__image"
+            :src="`data:image/jpeg;base64,${seData.eventData.imageFile.data}`"
+            alt=""
+          />
+          <img
+            v-else
             src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw3MjAxN3wwfDF8c2VhcmNofDN8fGV2ZW50fGVufDB8MHx8fDE2NjI0Mjg0MTA&ixlib=rb-1.2.1&q=80&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450"
             class="details__image"
           />
           <div class="event__detail">
             <h3 class="box__heading">DETAILS</h3>
-            <p class="detail__text">Event Detail</p>
+            <p class="detail__text">
+              {{ seData.eventData.detail }}
+            </p>
             <button class="map__marker" type="button">
-              <!-- <i class="fa fa-map-marker" aria-hidden="true"></i> -->
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
             </button>
           </div>
         </div>
@@ -61,7 +79,7 @@
 
         <div class="write__comment">
           <div class="avatar__circle">
-            <!-- <global-user-icon-vue /> -->
+            <global-user-icon-vue :uData="seData.specificData.hostInfo" />
           </div>
           <div class="write__box">
             <input
@@ -74,11 +92,16 @@
           </div>
         </div>
 
-        <div class="view__comment">
+        <div
+          v-for="comment in seData.specificData.commentsInfo"
+          class="view__comment"
+        >
           <div class="avatar__circle">
-            <!-- <global-user-icon-vue /> -->
+            <global-user-icon-vue :uData="comment.commentator" />
           </div>
-          <p class="posted__comment">comment</p>
+          <p class="posted__comment">
+            {{ comment.comment }}
+          </p>
         </div>
       </div>
 
@@ -87,16 +110,23 @@
       <div class="event__attendees">
         <div class="attendees__count">
           <h3 class="attendees__heading">ATTENDING</h3>
-          <h3 class="attendees__number">10</h3>
+          <h3 class="attendees__number">
+            ({{ seData.specificData.attendeesInfo.length }})
+          </h3>
         </div>
 
         <div class="test__media">
-          <div class="attendees__avatar">
+          <div
+            v-for="attendee in seData.specificData.attendeesInfo"
+            class="attendees__avatar"
+          >
             <div class="avatar__circle">
-              <!-- <global-user-icon-vue :uData="attendee" /> -->
+              <global-user-icon-vue :uData="attendee" />
             </div>
             <div class="attendees--name__status">
-              <h4 class="attendee__name">FirstName & LastName</h4>
+              <h4 class="attendee__name">
+                {{ attendee.firstName + " " + attendee.lastName }}
+              </h4>
               <h5 class="attendees__status">Member</h5>
             </div>
           </div>
@@ -107,6 +137,7 @@
       <h1>eventFULL</h1>
     </div>
   </div>
+  <div v-else><h1>Please Login First</h1></div>
 </template>
 
 <script>
@@ -123,7 +154,7 @@ export default {
       commentInput: "",
     };
   },
-  props: [],
+  props: ["uData", "seData"],
   methods: {
     goBack() {
       router.back();
