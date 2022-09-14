@@ -181,9 +181,16 @@ export default {
     showSearchInput() {
       this.isSearchInputAvailable = true;
     },
+    async getListOfAllEventsRequest() {
+      const response = await fetch("http://localhost:3000/events");
+      const data = await response.json();
+      this.eventData = data;
+    },
     // ----------------------------------------------------------------
   },
-  created() {},
+  created() {
+    this.getListOfAllEventsRequest();
+  },
 };
 </script>
 
