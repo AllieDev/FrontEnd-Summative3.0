@@ -225,6 +225,10 @@ export default {
   },
   created() {
     this.getListOfAllEventsRequest();
+    this.submitLoginRequest({
+      email: localStorage.getItem("userEmailDetail"),
+      password: localStorage.getItem("userPassDetail"),
+    });
   },
 };
 </script>
