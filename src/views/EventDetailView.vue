@@ -3,7 +3,7 @@
     <button class="back__button"></button>
 
     <div class="detail__heading">
-      <div class="router-link">
+      <div @click="goBack()" class="router-link">
         <global-arrow-icon-vue class="back__button" />
       </div>
 
@@ -124,9 +124,13 @@ export default {
     };
   },
   props: [],
-  methods: {},
-  created() {
-    this.$emit("unvisibleSearchInput");
+  methods: {
+    goBack() {
+      router.back();
+    },
+    created() {
+      this.$emit("unvisibleSearchInput");
+    },
   },
 };
 </script>
