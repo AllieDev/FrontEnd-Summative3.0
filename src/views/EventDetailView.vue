@@ -1,7 +1,5 @@
 <template>
   <div v-if="seData !== null" class="view">
-    <button class="back__button"></button>
-
     <div class="detail__heading">
       <div @click="goBack()" class="router-link">
         <global-arrow-icon-vue class="back__button" />
@@ -40,7 +38,13 @@
               </div>
             </div>
             <div class="attend--edit__container">
-              <button class="attend__event" type="button">ATTEND</button>
+              <button
+                class="attend__event"
+                type="button"
+                @click="sendAttendEventRequest"
+              >
+                ATTEND
+              </button>
               <button
                 v-if="seData.eventData.hostId == uData._id"
                 class="edit__event"
@@ -160,6 +164,21 @@ export default {
   methods: {
     goBack() {
       router.back();
+    },
+    async sendAttendEventRequest() {
+      // console.log(this.seData.eventData._id);
+      const response = await fetch(
+        `http://localhost:3000/events/attend/${this.$props.seData.eventData._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const data = await response.json();
+      alert(data.message);
     },
     async sendCommentPostRequest() {
       console.log("sending comment post request");
