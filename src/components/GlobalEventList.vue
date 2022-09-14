@@ -1,5 +1,5 @@
 <template>
-  <div class="event-card__container">
+  <div @click="$emit('sendEventData', eData)" class="event-card__container">
     <img
       :src="`data:image/jpeg;base64,${eData.imageFile.data}`"
       v-if="eData.imageFile"
