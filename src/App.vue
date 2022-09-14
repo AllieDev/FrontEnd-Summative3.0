@@ -97,6 +97,9 @@
     </nav>
     <div @click="closeAllDropDowns" class="router-view-container">
       <router-view
+        :seData="specificEventDetail"
+        :uData="userData"
+        :eData="eventData"
         @unvisibleSearchInput="hideSearchInput"
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"
