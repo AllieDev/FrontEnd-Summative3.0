@@ -154,7 +154,7 @@ export default {
         about: "This is a little about me...",
       },
       eventData: [{}, {}],
-      specificEventDetail: {},
+      specificEventDetail: null,
     };
   },
   methods: {
