@@ -18,7 +18,12 @@
     <div class="event-list__container">
       <div class="event-list__event-cards">
         <h3 class="event-list__header">All Events</h3>
-        <!-- <global-event-list /> -->
+        <global-event-list
+          @sendEventData="sendEventData"
+          v-for="event in eData"
+          :eData="event"
+          :key="event._id"
+        />
       </div>
     </div>
   </div>
@@ -32,7 +37,11 @@ export default {
     return {};
   },
   props: ["eData"],
-  methods: {},
+  methods: {
+    sendEventData(data) {
+      this.$emit("specificEventDetail", data);
+    },
+  },
   computed: {},
   watch: {},
   created() {

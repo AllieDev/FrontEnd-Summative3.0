@@ -104,6 +104,7 @@
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"
         @visibleNav="makeNavVisible"
+        @specificEventDetail="getSpecificEventDetail"
       />
     </div>
     <!-- For Development Only -->
@@ -152,7 +153,7 @@ export default {
         memberSince: "Now",
         about: "This is a little about me...",
       },
-      eventData: [],
+      eventData: [{}, {}],
       specificEventDetail: {},
     };
   },
@@ -185,6 +186,20 @@ export default {
       const response = await fetch("http://localhost:3000/events");
       const data = await response.json();
       this.eventData = data;
+    },
+    async getSpecificEventDetail(data) {
+      const response = await fetch(`http://localhost:3000/events/${data._id}`);
+
+      const specificData = await response.json();
+      const evenData = data;
+
+      this.specificEventDetail = {
+        eventData: evenData,
+        specificData: specificData,
+      };
+
+      console.log(this.specificEventDetail);
+      router.push("/event-detail");
     },
     // ----------------------------------------------------------------
   },
