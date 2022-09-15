@@ -55,7 +55,7 @@
               required
             ></textarea>
           </div>
-          <button href="#">PUBLISH</button>
+          <button @click="emitCreateEventData" href="#">PUBLISH</button>
         </form>
       </div>
       <div class="event__conatinerTwo">
@@ -105,6 +105,16 @@ export default {
       reader.readAsDataURL(this.imageFile);
       reader.addEventListener("load", () => {
         this.imageFileUrl = reader.result.toString();
+      });
+    },
+    emitCreateEventData() {
+      this.$emit("uploadImage", {
+        title: this.eventTitle,
+        location: this.eventLocation,
+        date: this.eventDate,
+        time: this.eventTime,
+        detail: this.eventDescription,
+        imageFile: this.imageFile,
       });
     },
   },
