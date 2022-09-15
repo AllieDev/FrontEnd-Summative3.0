@@ -26,7 +26,7 @@
               required
             />
           </div>
-          <a>FORGET PASSWORD</a>
+          <a>forget password</a>
         </div>
 
         <button @click.prevent="emitUserLoginData" type="button">LOG IN</button>
@@ -256,6 +256,7 @@ export default {
   border-bottom: solid 1px transparent;
 
   align-self: flex-end;
+  text-transform: uppercase;
 }
 
 .login__form button,
@@ -284,6 +285,7 @@ export default {
 .signup__login p {
   text-align: right;
   color: rgb(99, 99, 99);
+  text-transform: uppercase;
 }
 
 .login__signup a,
