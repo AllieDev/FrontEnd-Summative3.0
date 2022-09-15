@@ -15,19 +15,31 @@
             </p>
           </div>
         </div>
-        <p class="profile__about">{{ uData.about }}</p>
-        <button class="profile_edit-btn">EDIT PROFILE</button>
+        <p class="profile__about">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
+          adipisci libero ipsum distinctio earum delectus veritatis
+          exercitationem provident animi quod maxime magnam, officiis dolorum
+          saepe nihil tempore, est explicabo deserunt!{{ uData.about }}
+        </p>
+
+        <GlobalEditIconVue class="profile_edit-btn" />
       </div>
       <div class="profile__user-created-events">
         <div class="profile__subtitle">CREATED EVENTS</div>
         <div class="profile__events-container">
-          <global-event-list-vue :eData="eData" />
+          <global-event-list-vue
+            v-for="event in findListOfUsersCreatedEvents"
+            :eData="event"
+          />
         </div>
       </div>
       <div class="profile__user-to-attend-events">
         <div class="profile__subtitle">TO ATTEND</div>
         <div class="profile__events-container">
-          <global-event-list-vue :eData="eData" />
+          <global-event-list-vue
+            v-for="event in findListOfUsersToAttendEvents"
+            :eData="event"
+          />
         </div>
       </div>
     </div>
@@ -35,10 +47,12 @@
 </template>
 
 <script>
+import GlobalEditIconVue from "../components/icons/GlobalEditIcon.vue";
 import GlobalUserIconVue from "../components/GlobalUserIcon.vue";
 import GlobalEventListVue from "../components/GlobalEventList.vue";
 export default {
   components: {
+    GlobalEditIconVue,
     GlobalUserIconVue,
     GlobalEventListVue,
   },
@@ -47,7 +61,28 @@ export default {
   },
   props: ["uData", "eData"],
   methods: {},
-  computed: {},
+  computed: {
+    findListOfUsersCreatedEvents() {
+      let arrayOfCreatedEvents = [];
+      for (let event of this.eData) {
+        if (event.hostId == this.uData._id) {
+          arrayOfCreatedEvents.push(event);
+        }
+      }
+      return arrayOfCreatedEvents;
+    },
+    findListOfUsersToAttendEvents() {
+      let arrayOfToAttendEvents = [];
+      for (let event of this.eData) {
+        for (let attendeeId of event.attendeesId) {
+          if (attendeeId == this.uData._id) {
+            arrayOfToAttendEvents.push(event);
+          }
+        }
+      }
+      return arrayOfToAttendEvents;
+    },
+  },
   watch: {},
   created() {
     this.$emit("visibleNav");
@@ -105,6 +140,7 @@ export default {
   display: none;
 }
 .profile__user-info {
+  /* border: 1px solid black; */
   min-height: 300px;
   width: 100%;
   max-width: 1000px;
@@ -117,6 +153,7 @@ export default {
   gap: 20px;
 }
 .profile__username-and-icon-container {
+  /* border: 1px solid black; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -139,6 +176,7 @@ export default {
   color: rgb(164, 164, 164);
 }
 .profile__about {
+  margin-top: 10px;
   font-family: "Abel", sans-serif;
   font-size: medium;
   width: 100%;
@@ -146,14 +184,7 @@ export default {
   padding: 0 20px;
 }
 .profile_edit-btn {
-  font-family: "Anton", sans-serif;
-  font-weight: 100;
-  height: 35px;
-  width: 130px;
-  background-color: rgb(210, 37, 37);
-  color: white;
-  border: none;
-  border-radius: 20px;
+  align-self: flex-end;
 }
 .profile__user-created-events {
   width: 100%;
