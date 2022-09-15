@@ -106,6 +106,7 @@
         @visibleNav="makeNavVisible"
         @specificEventDetail="getSpecificEventDetail"
         @loginRequest="submitLoginRequest"
+        @uploadImage="createEventRequest"
       />
     </div>
     <!-- For Development Only -->
@@ -183,6 +184,28 @@ export default {
     },
     showSearchInput() {
       this.isSearchInputAvailable = true;
+    },
+    async createEventRequest(data) {
+      if (!data) {
+        alert("No data was captured! you cannot send the request");
+      } else {
+        const formData = new FormData();
+        formData.append("image", data.imageFile);
+        formData.append("title", data.title);
+        formData.append("location", data.location);
+        formData.append("date", data.date);
+        formData.append("time", data.time);
+        formData.append("detail", data.detail);
+
+        const response = await fetch("http://localhost:3000/events/", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: formData,
+        });
+        this.getListOfAllEventsRequest();
+      }
     },
     // ----------------------------------------------------------------
     async getListOfAllEventsRequest() {
