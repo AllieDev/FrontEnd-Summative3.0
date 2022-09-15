@@ -26,7 +26,7 @@
               required
             />
           </div>
-          <a>forgot password</a>
+          <a>FORGET PASSWORD</a>
         </div>
 
         <button @click.prevent="emitUserLoginData" type="button">LOG IN</button>
