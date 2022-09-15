@@ -91,7 +91,11 @@
             >
               LOG IN
             </router-link>
-            <button v-else class="drop-down__logout-btn drop-down__log-btns">
+            <button
+              v-else
+              @click="logOutUser"
+              class="drop-down__logout-btn drop-down__log-btns"
+            >
               LOG OUT
             </button>
           </div>
@@ -199,6 +203,11 @@ export default {
     },
     showSearchInput() {
       this.isSearchInputAvailable = true;
+    },
+    logOutUser() {
+      localStorage.clear();
+      location.reload();
+      this.isUserLogedIn = false;
     },
     async createEventRequest(data) {
       if (!data) {
