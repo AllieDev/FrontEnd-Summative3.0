@@ -1,49 +1,75 @@
 <template>
-  <div class="event">
-    <div class="event__container">
-      <h3 class="event__header">Create Event</h3>
-      <form class="event__form" action="./events">
-        <div>
-          <label class="event__label" for="title">Title</label>
-          <input
-            v-model="eventTitle"
-            type="text"
-            id="title"
-            name="title"
-            required
-          />
-        </div>
-        <div>
-          <label class="event__label" for="location">Location</label>
-          <input
-            v-model="eventLocation"
-            type="text"
-            id="location"
-            name="location"
-            required
-          />
-        </div>
-        <div>
-          <label class="event__label" for="date">Date</label>
-          <input
-            v-model="eventDate"
-            type="date"
-            id="date"
-            name="date"
-            required
-          />
-        </div>
-        <div>
-          <label class="event__label" for="time">Time</label><br />
-          <input
-            v-model="eventTime"
-            type="time"
-            id="time"
-            name="time"
-            required
-          />
-        </div>
-        <div class="mobile">
+  <div class="view">
+    <div class="event">
+      <div class="event__container">
+        <h3 class="event__header">Create Event</h3>
+        <form class="event__form" action="./events">
+          <div>
+            <label class="event__label" for="title">Title</label>
+            <input
+              v-model="eventTitle"
+              type="text"
+              id="title"
+              name="title"
+              required
+            />
+          </div>
+          <div>
+            <label class="event__label" for="location">Location</label>
+            <input
+              v-model="eventLocation"
+              type="text"
+              id="location"
+              name="location"
+              required
+            />
+          </div>
+          <div>
+            <label class="event__label" for="date">Date</label>
+            <input
+              v-model="eventDate"
+              type="date"
+              id="date"
+              name="date"
+              required
+            />
+          </div>
+          <div>
+            <label class="event__label" for="time">Time</label><br />
+            <input
+              v-model="eventTime"
+              type="time"
+              id="time"
+              name="time"
+              required
+            />
+          </div>
+          <div class="mobile">
+            <label class="event__label" for="description">Description</label
+            ><br />
+            <textarea
+              class="event__description"
+              v-model="eventDescription"
+              rows="4"
+              cols="50"
+              required
+            ></textarea>
+          </div>
+          <button href="#">PUBLISH</button>
+        </form>
+      </div>
+      <div class="event__conatinerTwo">
+        <img :src="imageFileUrl" class="event__photo" alt="" />
+        <label for="myfile">Select a Photo</label>
+        <input
+          @input="(event) => (imageFile = event.target.files[0])"
+          type="file"
+          @change="displayImage"
+          id="myfile"
+          name="myfile"
+        />
+        <!-- ---------------------------------------------------------------- -->
+        <div class="desktop">
           <label class="event__label" for="description">Description</label
           ><br />
           <textarea
@@ -54,27 +80,11 @@
             required
           ></textarea>
         </div>
-        <button href="#">PUBLISH</button>
-      </form>
-    </div>
-    <div class="event__conatinerTwo">
-      <img src="#" class="event__photo" alt="" />
-      <label for="myfile">Select a Photo</label>
-      <input type="file" id="myfile" name="myfile" />
-      <!-- ---------------------------------------------------------------- -->
-      <div class="desktop">
-        <label class="event__label" for="description">Description</label><br />
-        <textarea
-          class="event__description"
-          v-model="eventDescription"
-          rows="4"
-          cols="50"
-          required
-        ></textarea>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -89,13 +99,22 @@ export default {
     };
   },
   props: [],
-  methods: {},
+  methods: {
+    displayImage() {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.imageFile);
+      reader.addEventListener("load", () => {
+        this.imageFileUrl = reader.result.toString();
+      });
+    },
+  },
   watch() {},
   created() {
     this.$emit("unvisibleNav");
   },
 };
 </script>
+
 <style scoped>
 .view {
   min-height: 100vh;
@@ -170,8 +189,8 @@ textarea {
 }
 
 /* .event__description {
-  height: 15rem;
-} */
+    height: 15rem;
+  } */
 
 .mobile {
   display: none;
