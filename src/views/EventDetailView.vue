@@ -1,5 +1,95 @@
 <template>
   <div v-if="seData !== null" class="view">
+    <!--MODEL STARTS ---------------------------------------------------------------- -->
+    <div
+      @click.self="toggleModal"
+      v-if="isEditMode"
+      class="edit-model-background"
+    >
+      <div class="event">
+        <div class="event__container">
+          <h3 class="event__header">Create Event</h3>
+          <form class="event__form" action="./events">
+            <div>
+              <label class="event__label" for="title">Title</label>
+              <input
+                v-model="eventTitle"
+                type="text"
+                id="title"
+                name="title"
+                required
+              />
+            </div>
+            <div>
+              <label class="event__label" for="location">Location</label>
+              <input
+                v-model="eventLocation"
+                type="text"
+                id="location"
+                name="location"
+                required
+              />
+            </div>
+            <div>
+              <label class="event__label" for="date">Date</label>
+              <input
+                v-model="eventDate"
+                type="date"
+                id="date"
+                name="date"
+                required
+              />
+            </div>
+            <div>
+              <label class="event__label" for="time">Time</label><br />
+              <input
+                v-model="eventTime"
+                type="time"
+                id="time"
+                name="time"
+                required
+              />
+            </div>
+            <div class="mobile">
+              <label class="event__label" for="description">Description</label
+              ><br />
+              <textarea
+                class="event__description"
+                v-model="eventDescription"
+                rows="4"
+                cols="50"
+                required
+              ></textarea>
+            </div>
+            <button @click="emitCreateEventData" href="#">PUBLISH</button>
+          </form>
+        </div>
+        <div class="event__conatinerTwo">
+          <img :src="editModelImageDynamicSrc" class="event__photo" alt="" />
+          <label for="myfile">Select a Photo</label>
+          <input
+            @input="(event) => (imageFile = event.target.files[0])"
+            type="file"
+            @change="displayImage"
+            id="myfile"
+            name="myfile"
+          />
+          <!-- ---------------------------------------------------------------- -->
+          <div class="desktop">
+            <label class="event__label" for="description">Description</label
+            ><br />
+            <textarea
+              class="event__description"
+              v-model="eventDescription"
+              rows="4"
+              cols="50"
+              required
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--MODEL ENDS ---------------------------------------------------------------- -->
     <div class="detail__heading">
       <div @click="goBack()" class="router-link">
         <global-arrow-icon-vue class="back__button" />
@@ -46,6 +136,7 @@
                 ATTEND
               </button>
               <button
+                @click="toggleModal"
                 v-if="seData.eventData.hostId == uData._id"
                 class="edit__event"
                 type="button"
@@ -157,11 +248,38 @@ export default {
   },
   data() {
     return {
+      isDisplayImage: true,
+      eventTitle: null,
+      eventLocation: null,
+      eventDate: null,
+      eventTime: null,
+      eventDescription: null,
+      imageFile: "",
+      imageFileUrl: "",
+      isEditMode: true,
       commentInput: "",
     };
   },
   props: ["uData", "seData"],
   methods: {
+    displayImage() {
+      this.isDisplayImage = false;
+      const reader = new FileReader();
+      reader.readAsDataURL(this.imageFile);
+      reader.addEventListener("load", () => {
+        this.imageFileUrl = reader.result.toString();
+      });
+    },
+    toggleModal() {
+      this.isEditMode = !this.isEditMode;
+
+      this.eventTitle = this.$props.seData.eventData.title;
+      this.eventLocation = this.$props.seData.eventData.location;
+      this.eventDate = this.$props.seData.eventData.date;
+      this.eventTime = this.$props.seData.eventData.time;
+      this.eventDescription = this.$props.seData.eventData.detail;
+      console.log();
+    },
     goBack() {
       router.back();
     },
@@ -198,6 +316,15 @@ export default {
       );
       const data = await response.json();
       alert(data.message);
+    },
+  },
+  computed: {
+    editModelImageDynamicSrc() {
+      if (this.isDisplayImage) {
+        return `data:image/jpeg;base64,${this.$props.seData.eventData.imageFile.data}`;
+      } else {
+        return this.imageFileUrl;
+      }
     },
   },
   created() {
@@ -612,6 +739,163 @@ export default {
   .logo__bottom {
     font-size: 8px;
     margin-top: 8rem;
+  }
+}
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+.edit-model-background {
+  overflow: hidden scroll;
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.713);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.event {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "event__container event__containerTwo";
+
+  text-transform: uppercase;
+  background-color: white;
+  box-shadow: 6px 10px 8px #00000022;
+  width: 1200px;
+  min-height: max-content;
+}
+
+.event__container {
+  grid-area: event__container;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+  height: 100%;
+}
+
+.event__conatinerTwo {
+  padding: 20px;
+  grid-area: event__containerTwo;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.event__header {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.event__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.event__form input,
+textarea {
+  width: 100%;
+  padding: 0 1.5rem;
+  font-size: 2.5rem;
+  outline: none;
+  border: solid 2px #000;
+  margin: 0.5rem 0 2.5rem 0;
+}
+
+.mobile {
+  display: none;
+}
+
+.event__label {
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+}
+
+.event__form a {
+  align-self: flex-end;
+  padding: 0.2rem;
+  border-bottom: solid 2px transparent;
+  transition: 0.2s linear;
+  cursor: pointer;
+}
+
+.event__form a:hover {
+  border-bottom-color: white;
+}
+
+.event__form button {
+  align-self: flex-end;
+  background-color: #e35353;
+  color: white;
+  margin-top: 1em;
+  padding: 0.5rem 2.5rem;
+  font-size: 1.7rem;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 30px;
+  text-transform: uppercase;
+  border: none;
+}
+
+.event__photo {
+  min-width: 100%;
+  min-height: 200px;
+  max-height: 400px;
+  margin-bottom: 2.5em;
+  object-fit: cover;
+}
+input[type="file"] {
+  color: rgba(0, 0, 0, 0);
+}
+@media (max-width: 852px) {
+  .event__header {
+    text-align: center;
+  }
+  .event__form {
+    margin: 1rem 3rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .event__form input {
+    width: 5em;
+    height: auto;
+  }
+  .event__header {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .event {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    grid-template-areas:
+      "event__containerTwo"
+      "event__container ";
+    height: 2000px;
+  }
+  .event__container {
+    min-width: 100%;
+    min-height: 100%;
+  }
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>
