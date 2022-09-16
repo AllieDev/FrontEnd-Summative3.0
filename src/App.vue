@@ -125,6 +125,7 @@
         @specificEventDetail="getSpecificEventDetail"
         @loginRequest="submitLoginRequest"
         @uploadImage="createEventRequest"
+        @updateUserInfo="userInfoUpdateRequest"
       />
     </div>
     <!-- For Development Only -->
@@ -232,6 +233,21 @@ export default {
       }
     },
     // ----------------------------------------------------------------
+    async userInfoUpdateRequest(updateData) {
+      const response = await fetch("http://localhost:3000/users/", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify(updateData),
+      });
+      const data = await response.json();
+      if (data.firstName) {
+        this.userData = data;
+      }
+    },
+    // ----------------------------------------------------------------
     async getListOfAllEventsRequest() {
       const response = await fetch("http://localhost:3000/events");
       const data = await response.json();
@@ -249,7 +265,6 @@ export default {
         specificData: specificData,
       };
 
-      console.log(this.specificEventDetail);
       router.push("/event-detail");
     },
     // ----------------------------------------------------------------
