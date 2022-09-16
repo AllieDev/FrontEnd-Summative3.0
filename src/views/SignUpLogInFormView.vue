@@ -26,7 +26,7 @@
               required
             />
           </div>
-          <a>forgot password</a>
+          <a>forget password</a>
         </div>
 
         <button @click.prevent="emitUserLoginData" type="button">LOG IN</button>
@@ -43,6 +43,7 @@
           <div>
             <label class="signup__label" for="first-name">FIRST-NAME</label>
             <input
+              v-model="firstName"
               class="signup__form-input"
               type="text"
               id="first-name"
@@ -54,6 +55,7 @@
           <div>
             <label class="signup__label" for="last-name">LAST-NAME</label>
             <input
+              v-model="lastName"
               class="signup__form-input"
               type="text"
               id="last-name"
@@ -64,6 +66,7 @@
           <div>
             <label class="signup__label" for="email">E-MAIL</label>
             <input
+              v-model="email"
               class="signup__form-input"
               type="email"
               id="email"
@@ -74,6 +77,7 @@
           <div>
             <label class="signup__label" for="password">PASSWORD</label>
             <input
+              v-model="password"
               class="signup__form-input"
               type="password"
               id="password"
@@ -86,6 +90,7 @@
               >CONFIRM-PASSWORD</label
             >
             <input
+              v-model="confirmPassword"
               class="signup__form-input"
               type="password"
               id="confirmed-password"
@@ -94,7 +99,7 @@
             />
           </div>
         </div>
-        <button>SIGN UP</button>
+        <button @click="createUserAccountRequest">SIGN UP</button>
         <div class="signup__login">
           <p>already have an account? <a @click="swapToLogInForm">log in</a></p>
         </div>
@@ -109,8 +114,11 @@ export default {
   data() {
     return {
       isUser: true,
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     };
   },
   props: [],
@@ -144,6 +152,20 @@ export default {
         };
         this.$emit("loginRequest", userData);
       }
+    },
+    async createUserAccountRequest() {
+      const response = await fetch("http://localhost:3000/users/sign-up", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
     },
   },
   created() {
@@ -256,6 +278,7 @@ export default {
   border-bottom: solid 1px transparent;
 
   align-self: flex-end;
+  text-transform: uppercase;
 }
 
 .login__form button,
@@ -284,6 +307,7 @@ export default {
 .signup__login p {
   text-align: right;
   color: rgb(99, 99, 99);
+  text-transform: uppercase;
 }
 
 .login__signup a,

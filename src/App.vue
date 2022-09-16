@@ -14,12 +14,19 @@
             </button>
           </div>
         </div>
-        <div class="nav__user-icon-create-btn-and-help-btn-container">
-          <router-link to="/profile" class="nav__user-icon-container">
+        <div :class="navClasses">
+          <router-link
+            v-if="isUserLogedIn"
+            to="/profile"
+            class="nav__user-icon-container"
+          >
             <global-user-icon-vue :uData="userData" />
           </router-link>
           <p @click="toggleDropDownMenue" class="nav__links-dropdown">⌄</p>
-          <router-link to="/create-event" class="nav__create-event-btn"
+          <router-link
+            v-if="isUserLogedIn"
+            to="/create-event"
+            class="nav__create-event-btn"
             >CREATE EVENT</router-link
           >
           <global-menu-icon-vue
@@ -62,22 +69,33 @@
           <!-- Help Card Ends -->
         </div>
         <!-- Dropdown Menu Starts -->
-        <div v-if="isDropDownVisible" class="drop-down__container">
+        <div v-if="isDropDownVisible" :class="navDropDownClasses">
           <router-link to="/" class="drop-down__links">Events</router-link>
-          <router-link to="/create-event" class="drop-down__links"
+          <router-link
+            v-if="isUserLogedIn"
+            to="/create-event"
+            class="drop-down__links"
             >Create</router-link
           >
-          <router-link to="/profile" class="drop-down__links"
+          <router-link
+            v-if="isUserLogedIn"
+            to="/profile"
+            class="drop-down__links"
             >Profile</router-link
           >
           <div class="drop-down__login-logout-container">
             <router-link
+              v-if="!isUserLogedIn"
               class="drop-down__login-btn drop-down__log-btns"
               to="/log-in"
             >
               LOG IN
             </router-link>
-            <button class="drop-down__logout-btn drop-down__log-btns">
+            <button
+              v-else
+              @click="logOutUser"
+              class="drop-down__logout-btn drop-down__log-btns"
+            >
               LOG OUT
             </button>
           </div>
@@ -106,6 +124,8 @@
         @visibleNav="makeNavVisible"
         @specificEventDetail="getSpecificEventDetail"
         @loginRequest="submitLoginRequest"
+        @uploadImage="createEventRequest"
+        @updateUserInfo="userInfoUpdateRequest"
       />
     </div>
     <!-- For Development Only -->
@@ -142,6 +162,7 @@ export default {
   },
   data() {
     return {
+      isUserLogedIn: false,
       isDropDownVisible: false,
       isSearchInputAvailable: true,
       isHelpCardVisible: false,
@@ -184,6 +205,48 @@ export default {
     showSearchInput() {
       this.isSearchInputAvailable = true;
     },
+    logOutUser() {
+      localStorage.clear();
+      location.reload();
+      this.isUserLogedIn = false;
+    },
+    async createEventRequest(data) {
+      if (!data) {
+        alert("No data was captured! you cannot send the request");
+      } else {
+        const formData = new FormData();
+        formData.append("image", data.imageFile);
+        formData.append("title", data.title);
+        formData.append("location", data.location);
+        formData.append("date", data.date);
+        formData.append("time", data.time);
+        formData.append("detail", data.detail);
+
+        const response = await fetch("http://localhost:3000/events/", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: formData,
+        });
+        this.getListOfAllEventsRequest();
+      }
+    },
+    // ----------------------------------------------------------------
+    async userInfoUpdateRequest(updateData) {
+      const response = await fetch("http://localhost:3000/users/", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify(updateData),
+      });
+      const data = await response.json();
+      if (data.firstName) {
+        this.userData = data;
+      }
+    },
     // ----------------------------------------------------------------
     async getListOfAllEventsRequest() {
       const response = await fetch("http://localhost:3000/events");
@@ -202,7 +265,6 @@ export default {
         specificData: specificData,
       };
 
-      console.log(this.specificEventDetail);
       router.push("/event-detail");
     },
     // ----------------------------------------------------------------
@@ -222,6 +284,22 @@ export default {
       this.getListOfAllEventsRequest();
     },
     // ----------------------------------------------------------------
+  },
+  computed: {
+    navClasses() {
+      if (this.isUserLogedIn) {
+        return "nav__user-icon-create-btn-and-help-btn-container ";
+      } else {
+        return "useIsNotLoggedIn";
+      }
+    },
+    navDropDownClasses() {
+      if (this.isUserLogedIn) {
+        return "drop-down__container";
+      } else {
+        return "user-not-logged-in-drop-down__container";
+      }
+    },
   },
   created() {
     this.getListOfAllEventsRequest();
@@ -310,6 +388,15 @@ export default {
   background-color: white;
   border-left: 1px solid black;
   border-radius: 0 5px 5px 0;
+}
+.useIsNotLoggedIn {
+  max-width: 80px;
+  width: 100%;
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 .nav__user-icon-create-btn-and-help-btn-container {
   max-width: 300px;
@@ -409,6 +496,24 @@ export default {
   display: flex;
   gap: 20px;
   background-color: rgb(0, 136, 255);
+}
+.user-not-logged-in-drop-down__container {
+  z-index: 1;
+  position: absolute;
+  top: 101px;
+  right: 0px;
+
+  padding: 10px;
+  height: 200px;
+  width: 200px;
+
+  background-color: rgb(255, 255, 255);
+  box-shadow: 5px 10px 10px 0 rgba(23, 23, 23, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .drop-down__container {
   z-index: 1;

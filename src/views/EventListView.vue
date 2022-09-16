@@ -39,7 +39,7 @@ import GlobalEventList from "../components/GlobalEventList.vue";
 export default {
   components: { GlobalEventList },
   data() {
-    return { isDropdown: true };
+    return { isDropdown: false };
   },
   props: ["eData"],
   methods: {
