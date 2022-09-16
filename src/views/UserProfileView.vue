@@ -19,6 +19,8 @@
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="firstName">FIRST-NAME</label>
             <input
+              maxlength="12"
+              v-model="firstName"
               class="edit-model__name-input edit-model__inputs"
               type="text"
               name="firstName"
@@ -27,6 +29,8 @@
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="lastName">LAST-NAME</label>
             <input
+              maxlength="12"
+              v-model="lastName"
               class="edit-model__name-input edit-model__inputs"
               type="text"
               name="lastName"
@@ -35,6 +39,7 @@
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="about">ABOUT</label>
             <textarea
+              v-model="about"
               class="edit-model__about-input"
               name="about"
               id="text"
@@ -42,7 +47,12 @@
               maxlength="200"
             ></textarea>
           </div>
-          <button class="edit-model__update-btn">UPDATE</button>
+          <button
+            @click="emitUserInfoUpdateRequest"
+            class="edit-model__update-btn"
+          >
+            UPDATE
+          </button>
         </div>
       </div>
     </div>
@@ -63,10 +73,7 @@
           </div>
         </div>
         <p class="profile__about">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
-          adipisci libero ipsum distinctio earum delectus veritatis
-          exercitationem provident animi quod maxime magnam, officiis dolorum
-          saepe nihil tempore, est explicabo deserunt!{{ uData.about }}
+          {{ uData.about }}
         </p>
 
         <global-edit-icon-vue class="profile_edit-btn" @click="toggleModal" />
@@ -107,13 +114,29 @@ export default {
   },
   data() {
     return {
-      isEditMode: true,
+      isEditMode: false,
+      firstName: "",
+      lastName: "",
+      about: "",
     };
   },
   props: ["uData", "eData"],
   methods: {
+    emitUserInfoUpdateRequest() {
+      this.$emit("updateUserInfo", {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        about: this.about,
+      });
+    },
+    setDataForUpdateModel() {
+      this.firstName = this.uData.firstName;
+      this.lastName = this.uData.lastName;
+      this.about = this.uData.about;
+    },
     toggleModal() {
       this.isEditMode = !this.isEditMode;
+      this.setDataForUpdateModel();
     },
   },
   computed: {
@@ -140,6 +163,7 @@ export default {
   },
   watch: {},
   created() {
+    this.setDataForUpdateModel();
     this.$emit("visibleNav");
     this.$emit("unvisibleSearchInput");
   },
@@ -318,12 +342,17 @@ export default {
   gap: 5px;
 }
 .edit-model__inputs {
+  font-family: "Abel", sans-serif;
+  font-size: large;
+  padding-left: 10px;
   height: 50px;
   width: 100%;
 
   border: 2px solid black;
 }
 .edit-model__about-input {
+  font-size: large;
+  padding: 10px;
   height: 200px;
   min-width: 100%;
 
