@@ -249,7 +249,6 @@ export default {
         specificData: specificData,
       };
 
-      console.log(this.specificEventDetail);
       router.push("/event-detail");
     },
     // ----------------------------------------------------------------

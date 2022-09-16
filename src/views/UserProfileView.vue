@@ -1,5 +1,52 @@
 <template>
   <div class="view">
+    <div
+      @click.self="toggleModal"
+      v-if="isEditMode"
+      class="edit-model-background"
+    >
+      <div class="edit-model">
+        <div class="edit-model__icon-section">
+          <global-close-icon-vue
+            class="edit-model__close-btn"
+            @click="toggleModal"
+          />
+          <div class="edit-model__icon-container">
+            <global-user-icon-vue :uData="uData" />
+          </div>
+        </div>
+        <div class="edit-model__inputs-section">
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="firstName">FIRST-NAME</label>
+            <input
+              class="edit-model__name-input edit-model__inputs"
+              type="text"
+              name="firstName"
+            />
+          </div>
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="lastName">LAST-NAME</label>
+            <input
+              class="edit-model__name-input edit-model__inputs"
+              type="text"
+              name="lastName"
+            />
+          </div>
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="about">ABOUT</label>
+            <textarea
+              class="edit-model__about-input"
+              name="about"
+              id="text"
+              minlength="10"
+              maxlength="200"
+            ></textarea>
+          </div>
+          <button class="edit-model__update-btn">UPDATE</button>
+        </div>
+      </div>
+    </div>
+
     <div class="profile">
       <div class="profile__user-info">
         <div class="profile__username-and-icon-container">
@@ -22,7 +69,7 @@
           saepe nihil tempore, est explicabo deserunt!{{ uData.about }}
         </p>
 
-        <GlobalEditIconVue class="profile_edit-btn" />
+        <global-edit-icon-vue class="profile_edit-btn" @click="toggleModal" />
       </div>
       <div class="profile__user-created-events">
         <div class="profile__subtitle">CREATED EVENTS</div>
@@ -47,20 +94,28 @@
 </template>
 
 <script>
+import GlobalCloseIconVue from "../components/icons/GlobalCloseIcon.vue";
 import GlobalEditIconVue from "../components/icons/GlobalEditIcon.vue";
 import GlobalUserIconVue from "../components/GlobalUserIcon.vue";
 import GlobalEventListVue from "../components/GlobalEventList.vue";
 export default {
   components: {
+    GlobalCloseIconVue,
     GlobalEditIconVue,
     GlobalUserIconVue,
     GlobalEventListVue,
   },
   data() {
-    return {};
+    return {
+      isEditMode: true,
+    };
   },
   props: ["uData", "eData"],
-  methods: {},
+  methods: {
+    toggleModal() {
+      this.isEditMode = !this.isEditMode;
+    },
+  },
   computed: {
     findListOfUsersCreatedEvents() {
       let arrayOfCreatedEvents = [];
@@ -207,5 +262,83 @@ export default {
   .profile__about {
     font-size: small;
   }
+}
+/* ------------------------------------------------ */
+.edit-model-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.713);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-model {
+  padding: 10px 20px;
+  max-height: 600px;
+  height: 100%;
+  max-width: 500px;
+  width: 100%;
+
+  background-color: white;
+}
+
+.edit-model__icon-section {
+  position: relative;
+  margin-bottom: 50px;
+  height: 80px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-model__close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  max-width: 30px;
+}
+.edit-model__icon-container {
+  height: 100%;
+  width: 80px;
+}
+.edit-model__inputs-container {
+  height: 100px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+.edit-model__inputs {
+  height: 50px;
+  width: 100%;
+
+  border: 2px solid black;
+}
+.edit-model__about-input {
+  height: 200px;
+  min-width: 100%;
+
+  border: 2px solid black;
+  resize: none;
+}
+.edit-model__update-btn {
+  font-family: "Anton", sans-serif;
+  font-size: large;
+  margin-top: 30px;
+  width: 100%;
+  height: 50px;
+
+  color: white;
+  background-color: red;
+  border: none;
 }
 </style>
