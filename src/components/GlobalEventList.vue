@@ -39,6 +39,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 450px;
   min-width: 450px;
 }
 
