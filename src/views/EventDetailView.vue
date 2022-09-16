@@ -83,7 +83,7 @@
 
         <div class="write__comment">
           <div class="avatar__circle">
-            <global-user-icon-vue :uData="seData.specificData.hostInfo" />
+            <global-user-icon-vue :uData="uData" />
           </div>
           <div class="write__box">
             <input
