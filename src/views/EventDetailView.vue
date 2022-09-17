@@ -17,7 +17,6 @@
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="date">Date</label>
             <input
-              maxlength="12"
               v-model="eventDate"
               class="edit-model__name-input edit-model__inputs"
               type="date"
@@ -27,7 +26,6 @@
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="time">Time</label>
             <input
-              maxlength="12"
               v-model="eventTime"
               class="edit-model__name-input edit-model__inputs"
               type="time"
@@ -38,7 +36,6 @@
         <div class="edit-model__inputs-container">
           <label class="edit-model__label" for="firstName">Title</label>
           <input
-            maxlength="12"
             v-model="eventTitle"
             class="edit-model__name-input edit-model__inputs"
             type="text"
@@ -48,7 +45,6 @@
         <div class="edit-model__inputs-container">
           <label class="edit-model__label" for="lastName">Location</label>
           <input
-            maxlength="12"
             v-model="eventLocation"
             class="edit-model__name-input edit-model__inputs"
             type="text"
@@ -66,7 +62,9 @@
             maxlength="200"
           ></textarea>
         </div>
-        <button class="edit-model__update-btn">UPDATE</button>
+        <button @click="updatedEventRequest" class="edit-model__update-btn">
+          UPDATE
+        </button>
         <button @click="deleteEventRequest" class="edit-model__update-btn">
           DELETE EVENT
         </button>
@@ -275,6 +273,7 @@ export default {
       );
       const data = await response.json();
       alert(data.message);
+      this.$emit("specificEventDetail", this.$props.seData.eventData);
     },
     async sendCommentPostRequest() {
       console.log("sending comment post request");
@@ -292,8 +291,8 @@ export default {
           }),
         }
       );
-      const data = await response.json();
-      alert(data.message);
+      // const data = await response.json();
+      this.$emit("specificEventDetail", this.$props.seData.eventData);
     },
     async deleteEventRequest() {
       const response = await fetch(
@@ -309,6 +308,37 @@ export default {
       const data = await response.json();
       alert(data.message);
       location.reload();
+    },
+    async updatedEventRequest() {
+      const response = await fetch(
+        `http://localhost:3000/events/hosted/${this.$props.seData.eventData._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            title: this.eventTitle,
+            time: this.eventTime,
+            date: this.eventDate,
+            location: this.eventLocation,
+            detail: this.eventDescription,
+          }),
+        }
+      );
+      const data = await response.json();
+      // alert(data);
+      // location.reload();
+      this.$emit("specificEventDetail", {
+        _id: data,
+        hostId: this.$props.seData.eventData.hostId,
+        title: this.eventTitle,
+        time: this.eventTime,
+        date: this.eventDate,
+        location: this.eventLocation,
+        detail: this.eventDescription,
+      });
     },
   },
   computed: {},

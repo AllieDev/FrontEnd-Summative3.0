@@ -176,7 +176,7 @@ export default {
         memberSince: "Now",
         about: "This is a little about me...",
       },
-      eventData: [{}, {}],
+      eventData: null,
       specificEventDetail: null,
     };
   },
