@@ -1,4 +1,78 @@
 <template>
+  <!-- MODAL STARTS -->
+  <div
+    @click.self="toggleModal"
+    v-if="isEditMode"
+    class="edit-model-background"
+  >
+    <div class="edit-model">
+      <div class="edit-model__icon-section">
+        <global-close-icon-vue
+          class="edit-model__close-btn"
+          @click="toggleModal"
+        />
+      </div>
+      <div class="edit-model__inputs-section">
+        <div class="edit-model__date-time-container">
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="date">Date</label>
+            <input
+              v-model="eventDate"
+              class="edit-model__name-input edit-model__inputs"
+              type="date"
+              name="date"
+            />
+          </div>
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="time">Time</label>
+            <input
+              v-model="eventTime"
+              class="edit-model__name-input edit-model__inputs"
+              type="time"
+              name="time"
+            />
+          </div>
+        </div>
+        <div class="edit-model__inputs-container">
+          <label class="edit-model__label" for="firstName">Title</label>
+          <input
+            v-model="eventTitle"
+            class="edit-model__name-input edit-model__inputs"
+            type="text"
+            name="firstName"
+          />
+        </div>
+        <div class="edit-model__inputs-container">
+          <label class="edit-model__label" for="lastName">Location</label>
+          <input
+            v-model="eventLocation"
+            class="edit-model__name-input edit-model__inputs"
+            type="text"
+            name="lastName"
+          />
+        </div>
+        <div class="edit-model__inputs-container">
+          <label class="edit-model__label" for="about">Detail</label>
+          <textarea
+            v-model="eventDescription"
+            class="edit-model__about-input"
+            name="about"
+            id="text"
+            minlength="10"
+            maxlength="200"
+          ></textarea>
+        </div>
+        <button @click="updatedEventRequest" class="edit-model__update-btn">
+          UPDATE
+        </button>
+        <button @click="deleteEventRequest" class="edit-model__update-btn">
+          DELETE EVENT
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL ENDS -->
+
   <div v-if="seData !== null" class="view">
     <div class="detail__heading">
       <div @click="goBack()" class="router-link">
@@ -46,6 +120,7 @@
                 ATTEND
               </button>
               <button
+                @click="toggleModal"
                 v-if="seData.eventData.hostId == uData._id"
                 class="edit__event"
                 type="button"
@@ -147,21 +222,40 @@
 </template>
 
 <script>
+import GlobalCloseIconVue from "../components/icons/GlobalCloseIcon.vue";
 import GlobalArrowIconVue from "../components/icons/GlobalArrowIcon.vue";
 import GlobalUserIconVue from "../components/GlobalUserIcon.vue";
 import router from "../router";
 export default {
   components: {
+    GlobalCloseIconVue,
     GlobalUserIconVue,
     GlobalArrowIconVue,
   },
   data() {
     return {
+      eventTitle: null,
+      eventLocation: null,
+      eventDate: null,
+      eventTime: null,
+      eventDescription: null,
+
+      isEditMode: false,
       commentInput: "",
     };
   },
   props: ["uData", "seData"],
   methods: {
+    toggleModal() {
+      this.isEditMode = !this.isEditMode;
+
+      this.eventTitle = this.$props.seData.eventData.title;
+      this.eventLocation = this.$props.seData.eventData.location;
+      this.eventDate = this.$props.seData.eventData.date;
+      this.eventTime = this.$props.seData.eventData.time;
+      this.eventDescription = this.$props.seData.eventData.detail;
+      console.log();
+    },
     goBack() {
       router.back();
     },
@@ -179,6 +273,7 @@ export default {
       );
       const data = await response.json();
       alert(data.message);
+      this.$emit("specificEventDetail", this.$props.seData.eventData);
     },
     async sendCommentPostRequest() {
       console.log("sending comment post request");
@@ -196,10 +291,57 @@ export default {
           }),
         }
       );
+      // const data = await response.json();
+      this.$emit("specificEventDetail", this.$props.seData.eventData);
+    },
+    async deleteEventRequest() {
+      const response = await fetch(
+        `http://localhost:3000/events/${this.$props.seData.eventData._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
       const data = await response.json();
       alert(data.message);
+      location.reload();
+    },
+    async updatedEventRequest() {
+      const response = await fetch(
+        `http://localhost:3000/events/hosted/${this.$props.seData.eventData._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            title: this.eventTitle,
+            time: this.eventTime,
+            date: this.eventDate,
+            location: this.eventLocation,
+            detail: this.eventDescription,
+          }),
+        }
+      );
+      const data = await response.json();
+      // alert(data);
+      // location.reload();
+      this.$emit("specificEventDetail", {
+        _id: data,
+        hostId: this.$props.seData.eventData.hostId,
+        title: this.eventTitle,
+        time: this.eventTime,
+        date: this.eventDate,
+        location: this.eventLocation,
+        detail: this.eventDescription,
+      });
     },
   },
+  computed: {},
   created() {
     this.$emit("unvisibleSearchInput");
   },
@@ -612,6 +754,113 @@ export default {
   .logo__bottom {
     font-size: 8px;
     margin-top: 8rem;
+  }
+}
+/* -------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+.edit-model-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.713);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-model {
+  padding: 10px 20px;
+  max-height: 600px;
+  height: 100%;
+  max-width: 500px;
+  width: 100%;
+
+  background-color: white;
+}
+
+.edit-model__icon-section {
+  position: relative;
+  margin-bottom: 10px;
+  /* height: 80px; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px soid black;
+}
+.edit-model__close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  max-width: 30px;
+}
+.edit-model__date-time-container {
+  display: flex;
+  gap: 5px;
+  /* border: 2px solid red; */
+}
+.edit-model__inputs-container {
+  height: 100px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+.edit-model__inputs {
+  font-family: "Abel", sans-serif;
+  font-size: large;
+  padding-left: 10px;
+  height: 50px;
+  width: 100%;
+
+  border: 2px solid black;
+}
+.edit-model__about-input {
+  font-size: large;
+  padding: 10px;
+  height: 200px;
+  min-width: 100%;
+
+  border: 2px solid black;
+  resize: none;
+}
+.edit-model__update-btn {
+  font-family: "Anton", sans-serif;
+  font-size: large;
+  margin-top: 30px;
+  width: 100%;
+  height: 50px;
+
+  color: white;
+  background-color: red;
+  border: none;
+}
+
+@media screen and (max-width: 600px) {
+  .edit-model__inputs {
+    height: 40px;
+    border: 1px solid black;
+  }
+  .edit-model__about-input {
+    border: 1px solid black;
+  }
+  .edit-model__update-btn {
+    font-family: "Anton", sans-serif;
+    font-size: large;
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+
+    color: white;
+    background-color: red;
+    border: none;
   }
 }
 </style>
