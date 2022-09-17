@@ -216,14 +216,17 @@ export default {
 @media screen and (max-width: 800px) {
   .view {
     height: calc(100vh - 70px);
+    margin: 5%;
   }
 }
 /* ---------------------------------------------------------------- */
 
 .back__button {
   cursor: pointer;
-  margin-bottom: 50px;
+  margin: 4rem 0rem 4rem 0rem;
+  height: 35px;
 }
+
 .router-link {
   width: fit-content;
 }
@@ -239,7 +242,12 @@ export default {
 }
 
 .time__date {
+  margin-bottom: 0.5rem;
   font-family: abel, sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #5c5c5c;
 }
 
 @media screen and (max-width: 768px) {
@@ -249,6 +257,7 @@ export default {
 }
 .event__title {
   font-family: anton, sans-serif;
+  text-transform: uppercase;
   letter-spacing: 2px;
 }
 
@@ -259,16 +268,17 @@ export default {
 }
 
 .event__location {
-  margin-top: 1%;
+  margin-top: 0.5rem;
+  margin-bottom: 4rem;
   font-family: anton, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 1.5px;
   color: #5c5c5c;
 }
 
 @media screen and (max-width: 768px) {
   .event__location {
-    font-size: 13px;
+    font-size: 15px;
   }
 }
 .user__avatar {
@@ -276,10 +286,14 @@ export default {
   margin-bottom: 4%;
 }
 
+.avatar__headings {
+  margin-left: 1.5rem;
+}
+
 .avatar__circle {
   border-radius: 100%;
-  width: 4rem;
-  height: 4rem;
+  width: 3.5rem;
+  height: 3.5rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -308,41 +322,45 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 180px;
 }
-@media screen and (max-width: 768px) {
+
+/* @media screen and (max-width: 768px) {
   .avatar__cricle-heading-container {
     width: 150px;
   }
-}
+} */
 
 .hosted__by {
   font-family: abel, sans-serif;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .hosted__by {
+    font-size: 13px;
+  }
 }
 
 .host__name {
   font-family: anton, sans-serif;
   letter-spacing: 2px;
+  font-size: 20px;
 }
 
 @media screen and (max-width: 768px) {
   .host__name {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
 .attend--edit__container {
-  max-width: 270px;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
 }
 @media screen and (max-width: 800px) {
   .attend--edit__container {
-    max-width: 100px;
-    flex-direction: column;
-    gap: 5px;
-    align-items: flex-end;
+    display: flex;
+    gap: 2rem;
   }
 }
 
@@ -353,10 +371,10 @@ export default {
   border-radius: 20px;
   background-color: #e35353;
   color: #f1f1f1;
-  width: 8rem;
-  height: 2.5rem;
+  width: 5rem;
+  height: 2rem;
   font-family: anton, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 2px;
 }
 
@@ -371,7 +389,7 @@ export default {
     width: 5rem;
     height: 2rem;
     font-family: anton, sans-serif;
-    font-size: x-small;
+    font-size: 14px;
     letter-spacing: 2px;
   }
 }
@@ -396,7 +414,7 @@ export default {
 }
 
 .main__detail {
-  max-width: 700px;
+  width: 50%;
 }
 
 @media screen and (max-width: 768px) {
@@ -423,32 +441,52 @@ export default {
 }
 
 .event__detail {
-  height: 400px;
+  height: auto;
   margin-top: -30px;
   width: 90%;
-  padding: 30px;
+  padding: 40px;
   background-color: white;
   box-shadow: 6px 10px 18px #00000028;
 }
 
 .box__heading {
   font-family: anton, sans-serif;
+  font-size: 20px;
   letter-spacing: 2px;
+}
+
+@media screen and (max-width: 768px) {
+  .box__heading {
+    font-size: 16px;
+  }
 }
 
 .detail__text {
   margin-top: 2%;
   font-family: abel, sans-serif;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .detail__text {
+    font-size: 18px;
+  }
 }
 
 .map__marker {
   cursor: pointer;
   background-color: white;
   border: 0px;
-  margin-top: 5%;
+  margin-top: 10%;
   margin-left: 90%;
-  font-size: 20px;
+  font-size: 25px;
   color: rgb(58, 152, 215);
+}
+
+@media screen and (max-width: 768px) {
+  .map__marker {
+    font-size: 22px;
+  }
 }
 
 /* //////////////////////////////////////////////////////////// */
@@ -456,7 +494,7 @@ export default {
 /* //////////////////////////////////////////////////////////// */
 
 .write__comment {
-  margin-top: 4%;
+  margin-top: -3rem;
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -465,6 +503,7 @@ export default {
 @media screen and (max-width: 768px) {
   .write__comment {
     gap: 1rem;
+    margin-top: -4rem;
   }
 }
 
@@ -485,7 +524,7 @@ export default {
   outline: none;
   margin-left: 1rem;
   width: 90%;
-  height: 2.5rem;
+  height: 2rem;
   border: 0px;
   font-family: abel, sans-serif;
 }
@@ -526,9 +565,15 @@ export default {
 
 /* /////////////////////////////////////////////////// */
 
+.event__attendees {
+  margin-top: 2.5rem;
+  width: 30%;
+}
+
 @media screen and (max-width: 768px) {
   .event__attendees {
-    margin-top: 7rem;
+    margin-top: 5rem;
+    width: 100%;
   }
 }
 
@@ -544,6 +589,7 @@ export default {
 @media screen and (max-width: 768px) {
   .attendees__count {
     font-size: 12px;
+    margin-bottom: 2rem;
   }
 }
 
@@ -551,31 +597,41 @@ export default {
   font-family: anton, sans-serif;
   font-size: 14px;
   letter-spacing: 1.5px;
-  margin: 0 20px;
-
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 2rem;
-
   color: #333333;
 }
+
+@media screen and (max-width: 768px) {
+  .attendees--name__status {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .attendee__name {
+    text-align: center;
+  }
+}
+
 .attendees__status {
   font-family: abel, sans-serif;
 }
 
 @media screen and (max-width: 768px) {
   .attendees__avatar {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
 
     font-size: 12px;
-
-    /* flex-direction: row; */
-    /* margin-left: -83%; */
   }
 }
 .test__media {
@@ -586,22 +642,22 @@ export default {
 
 @media screen and (max-width: 768px) {
   .test__media {
-    padding: 10px;
-    width: 100%;
+    padding: px;
+    /* width: 100%; */
     display: flex;
     overflow: scroll hidden;
     flex-direction: row;
-    gap: 0.5rem;
+    /* gap: 1.5rem; */
   }
 }
 /* /////////////////////////////////////////////////// */
 
 .logo__bottom {
-  margin-top: 10rem;
-
+  margin-top: 6rem;
   font-family: anton, sans-serif;
   letter-spacing: 2px;
   font-size: 12px;
+  color: #e35353;
   /* background-color: aquamarine; */
   display: flex;
   justify-content: center;
@@ -611,7 +667,8 @@ export default {
 @media screen and (max-width: 768px) {
   .logo__bottom {
     font-size: 8px;
-    margin-top: 8rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
   }
 }
 </style>
