@@ -67,6 +67,9 @@
           ></textarea>
         </div>
         <button class="edit-model__update-btn">UPDATE</button>
+        <button @click="deleteEventRequest" class="edit-model__update-btn">
+          DELETE EVENT
+        </button>
       </div>
     </div>
   </div>
@@ -291,6 +294,21 @@ export default {
       );
       const data = await response.json();
       alert(data.message);
+    },
+    async deleteEventRequest() {
+      const response = await fetch(
+        `http://localhost:3000/events/${this.$props.seData.eventData._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      const data = await response.json();
+      alert(data.message);
+      location.reload();
     },
   },
   computed: {},
@@ -735,7 +753,7 @@ export default {
 
 .edit-model__icon-section {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   /* height: 80px; */
 
   display: flex;
@@ -793,5 +811,26 @@ export default {
   color: white;
   background-color: red;
   border: none;
+}
+
+@media screen and (max-width: 600px) {
+  .edit-model__inputs {
+    height: 40px;
+    border: 1px solid black;
+  }
+  .edit-model__about-input {
+    border: 1px solid black;
+  }
+  .edit-model__update-btn {
+    font-family: "Anton", sans-serif;
+    font-size: large;
+    margin-top: 20px;
+    width: 100%;
+    height: 40px;
+
+    color: white;
+    background-color: red;
+    border: none;
+  }
 }
 </style>

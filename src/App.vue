@@ -129,7 +129,7 @@
       />
     </div>
     <!-- For Development Only -->
-    <div class="dev__quick-page-access">
+    <!-- <div class="dev__quick-page-access">
       <router-link class="router-link" to="/log-in">Sign-Up Login</router-link>
       <router-link class="router-link" to="/">Event List</router-link>
       <router-link class="router-link" to="/event-detail"
@@ -139,7 +139,7 @@
         >Create Event</router-link
       >
       <router-link class="router-link" to="/profile">User Profile</router-link>
-    </div>
+    </div> -->
     <!-- For Development Only -->
   </div>
 </template>
