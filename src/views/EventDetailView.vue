@@ -442,7 +442,7 @@ export default {
 
 .event__detail {
   height: auto;
-  margin-top: -30px;
+  margin-top: -15%;
   width: 90%;
   padding: 40px;
   background-color: white;
@@ -494,7 +494,7 @@ export default {
 /* //////////////////////////////////////////////////////////// */
 
 .write__comment {
-  margin-top: -3rem;
+  margin-top: -7rem;
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -503,7 +503,7 @@ export default {
 @media screen and (max-width: 768px) {
   .write__comment {
     gap: 1rem;
-    margin-top: -4rem;
+    margin-top: -8rem;
   }
 }
 
