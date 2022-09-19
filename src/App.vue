@@ -81,14 +81,21 @@
         </div>
         <!-- Dropdown Menu Starts -->
         <div v-if="isDropDownVisible" :class="navDropDownClasses">
-          <router-link to="/" class="drop-down__links">Events</router-link>
           <router-link
+            @click="toggleDropDownMenue"
+            to="/"
+            class="drop-down__links"
+            >Events</router-link
+          >
+          <router-link
+            @click="toggleDropDownMenue"
             v-if="isUserLogedIn"
             to="/create-event"
             class="drop-down__links"
             >Create</router-link
           >
           <router-link
+            @click="toggleDropDownMenue"
             v-if="isUserLogedIn"
             to="/profile"
             class="drop-down__links"
