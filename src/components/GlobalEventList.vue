@@ -46,7 +46,7 @@ export default {
 .event-card__background {
   background-color: #f6f6f6;
   width: 100%;
-  height: 25rem;
+  height: 21rem;
 }
 
 .event-card__contents {
@@ -55,7 +55,7 @@ export default {
   margin-top: -17rem;
   padding: 3rem 3rem;
   width: 80%;
-  height: 30rem;
+  height: 22.5rem;
 
   display: flex;
   flex-direction: column;
