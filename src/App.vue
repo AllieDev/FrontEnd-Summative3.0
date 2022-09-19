@@ -445,8 +445,8 @@ export default {
 
 .nav__user-icon-container {
   text-decoration: none;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
 }
 .nav__create-event-btn {
   text-decoration: none;
