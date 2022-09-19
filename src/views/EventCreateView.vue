@@ -59,6 +59,29 @@
         </form>
       </div>
       <div class="event__conatinerTwo">
+        <div class="map__view">
+          <section class="ui two column centered grid">
+            <div class="column">
+              <form class="ui segment large form">
+                <div class="field">
+                  <div class="ui right icon input large">
+                    <input
+                      type="text"
+                      placeholder="Enter your address"
+                      v-model="address"
+                      ref="autocomplete"
+                    />
+                    <i
+                      class="dot circle link icon"
+                      @click="locatorButtonPressed"
+                    ></i>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+
         <img :src="imageFileUrl" class="event__photo" alt="" />
         <label for="myfile">Select a Photo</label>
         <input
@@ -86,7 +109,12 @@
 </template>
 
 <script>
+import axios from "axios";
+import MapView from "../components/Map.vue";
 export default {
+  component: {
+    MapView,
+  },
   data() {
     return {
       eventTitle: null,
@@ -96,7 +124,11 @@ export default {
       eventDescription: null,
       imageFile: "",
       imageFileUrl: "",
+      address: "",
     };
+  },
+  mounted() {
+    new google.maps.places.Autocomplete(this.$refs["autocomplete"]);
   },
   props: [],
   methods: {
@@ -116,6 +148,39 @@ export default {
         detail: this.eventDescription,
         imageFile: this.imageFile,
       });
+    },
+    locatorButtonPressed() {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.getStreetAddressFrom(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          console.log(position.coords.latitude);
+          console.log(position.coords.longitude);
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+    },
+    async getStreetAddressFrom(lat, long) {
+      try {
+        var { data } = await axios.get(
+          "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+            lat +
+            "," +
+            long +
+            "&key=AIzaSyCJbrqQwkvCKhqeprxX__Qz1Qld-Veo89E"
+        );
+        if (data.error_message) {
+          console.log(data.error_message);
+        } else {
+          this.address = data.results[0].formatted_address;
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
     },
   },
   watch() {},
