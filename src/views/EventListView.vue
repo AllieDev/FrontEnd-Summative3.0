@@ -65,9 +65,15 @@ export default {
   overflow: hidden scroll;
   /* background-color: rgb(173, 230, 200); */
 }
+
+.view::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (max-width: 800px) {
   .view {
     height: calc(100vh - 70px);
+    margin: 5%;
   }
 }
 /* ---------------------------------------------------------------- */
@@ -83,6 +89,7 @@ export default {
 .search-event__container h3 {
   font-family: "Anton", sans-serif;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .search-event__container p {
@@ -102,11 +109,13 @@ export default {
 .search-event__options {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.4rem 1.5rem;
 }
 
 .search-event__options p {
   margin-right: 15rem;
+  font-size: 12px;
 }
 
 .search-event__dropdown {
@@ -197,18 +206,30 @@ export default {
   .search-event__mobile {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin: 5rem 2rem 0rem;
+    margin: -3.5rem 0;
   }
 
   .search-event__container {
-    justify-content: flex-start;
+    justify-content: center;
+    width: 100%;
+    gap: 1.5rem;
   }
 
-  .search-event__sub-container {
-    margin-left: 0;
+  .search-event__container h3 {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
+  .search-event__sub-container {
+    margin-left: -0.5rem;
+  }
+
+  .search-event__options {
+    padding: 0.15rem 0.8rem;
+    gap: 1.5rem;
+  }
+
   .search-event__options p {
+    font-size: 0.6rem;
     margin-right: 5.2rem;
   }
 
@@ -225,16 +246,18 @@ export default {
     padding: 1rem 3.1rem 1rem 1.5rem;
   }
 
-  .search-event__container h3 {
-    font-size: 1.3rem;
-    margin-right: 1rem;
+  .event-list__container {
+    max-width: 1200px;
+    margin: auto;
+    margin-bottom: 10rem;
+    margin-top: -12rem;
   }
-
   .event-list__event-cards {
     max-width: 320px;
+    gap: 5.5rem;
   }
   .event-list__header {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
   }
 }
 </style>
