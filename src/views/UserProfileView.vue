@@ -84,6 +84,8 @@
           <global-event-list-vue
             v-for="event in findListOfUsersCreatedEvents"
             :eData="event"
+            :key="event._id"
+            @sendEventData="sendEventData"
           />
         </div>
       </div>
@@ -93,6 +95,8 @@
           <global-event-list-vue
             v-for="event in findListOfUsersToAttendEvents"
             :eData="event"
+            :key="event._id"
+            @sendEventData="sendEventData"
           />
         </div>
       </div>
@@ -137,6 +141,9 @@ export default {
     toggleModal() {
       this.isEditMode = !this.isEditMode;
       this.setDataForUpdateModel();
+    },
+    sendEventData(data) {
+      this.$emit("specificEventDetail", data);
     },
   },
   computed: {
