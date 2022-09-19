@@ -8,8 +8,12 @@
             v-if="isSearchInputAvailable"
             class="nav__search-input-container"
           >
-            <input class="nav__search-input" type="text" />
-            <button class="nav__search-btn" type="button">
+            <input v-model="navSearch" class="nav__search-input" type="text" />
+            <button
+              @click="filterSearchedEventData"
+              class="nav__search-btn"
+              type="button"
+            >
               <global-search-icon-vue />
             </button>
           </div>
@@ -124,7 +128,7 @@
       <router-view
         :seData="specificEventDetail"
         :uData="userData"
-        :eData="eventData"
+        :eData="isSearching ? searchEventData : eventData"
         @unvisibleSearchInput="hideSearchInput"
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"
@@ -169,6 +173,8 @@ export default {
   },
   data() {
     return {
+      isSearching: false,
+      navSearch: "",
       isUserLogedIn: false,
       isDropDownVisible: false,
       isSearchInputAvailable: true,
@@ -183,6 +189,7 @@ export default {
         memberSince: "Now",
         about: "This is a little about me...",
       },
+      searchEventData: [],
       eventData: null,
       specificEventDetail: null,
     };
@@ -291,6 +298,21 @@ export default {
       this.getListOfAllEventsRequest();
     },
     // ----------------------------------------------------------------
+    filterSearchedEventData() {
+      if (!this.navSearch) {
+        this.isSearching = false;
+      } else {
+        this.isSearching = true;
+        this.searchEventData = [];
+        for (let event of this.eventData) {
+          if (
+            event.title.toLowerCase().includes(this.navSearch.toLowerCase())
+          ) {
+            this.searchEventData.push(event);
+          }
+        }
+      }
+    },
   },
   computed: {
     navClasses() {

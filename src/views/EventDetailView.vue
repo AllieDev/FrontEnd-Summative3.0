@@ -1,224 +1,230 @@
 <template>
-  <!-- MODAL STARTS -->
-  <div
-    @click.self="toggleModal"
-    v-if="isEditMode"
-    class="edit-model-background"
-  >
-    <div class="edit-model">
-      <div class="edit-model__icon-section">
-        <global-close-icon-vue
-          class="edit-model__close-btn"
-          @click="toggleModal"
-        />
-      </div>
-      <div class="edit-model__inputs-section">
-        <div class="edit-model__date-time-container">
-          <div class="edit-model__inputs-container">
-            <label class="edit-model__label" for="date">Date</label>
-            <input
-              v-model="eventDate"
-              class="edit-model__name-input edit-model__inputs"
-              type="date"
-              name="date"
-            />
-          </div>
-          <div class="edit-model__inputs-container">
-            <label class="edit-model__label" for="time">Time</label>
-            <input
-              v-model="eventTime"
-              class="edit-model__name-input edit-model__inputs"
-              type="time"
-              name="time"
-            />
-          </div>
-        </div>
-        <div class="edit-model__inputs-container">
-          <label class="edit-model__label" for="firstName">Title</label>
-          <input
-            v-model="eventTitle"
-            class="edit-model__name-input edit-model__inputs"
-            type="text"
-            name="firstName"
+  <div>
+    <!-- MODAL STARTS -->
+    <div
+      @click.self="toggleModal"
+      v-if="isEditMode"
+      class="edit-model-background"
+    >
+      <div class="edit-model">
+        <div class="edit-model__icon-section">
+          <global-close-icon-vue
+            class="edit-model__close-btn"
+            @click="toggleModal"
           />
         </div>
-        <div class="edit-model__inputs-container">
-          <label class="edit-model__label" for="lastName">Location</label>
-          <input
-            v-model="eventLocation"
-            class="edit-model__name-input edit-model__inputs"
-            type="text"
-            name="lastName"
-          />
-        </div>
-        <div class="edit-model__inputs-container">
-          <label class="edit-model__label" for="about">Detail</label>
-          <textarea
-            v-model="eventDescription"
-            class="edit-model__about-input"
-            name="about"
-            id="text"
-            minlength="10"
-            maxlength="200"
-          ></textarea>
-        </div>
-        <button @click="updatedEventRequest" class="edit-model__update-btn">
-          UPDATE
-        </button>
-        <button @click="deleteEventRequest" class="edit-model__update-btn">
-          DELETE EVENT
-        </button>
-      </div>
-    </div>
-  </div>
-  <!-- MODAL ENDS -->
-
-  <div v-if="seData !== null" class="view">
-    <div class="detail__heading">
-      <div @click="goBack()" class="router-link">
-        <global-arrow-icon-vue class="back__button" />
-      </div>
-
-      <div class="detail__boxx">
-        <h3 class="time__date">
-          {{ seData.eventData.date + " -- " + seData.eventData.time }}
-        </h3>
-        <h1 class="event__title">{{ seData.eventData.title }}</h1>
-        <h4 class="event__location">{{ seData.eventData.location }}</h4>
-      </div>
-    </div>
-
-    <!-- AVATAR AND BUTTONS -->
-
-    <!-- MAIN CONTAINER -->
-
-    <main class="main__eventDetails">
-      <div class="main__detail">
-        <div class="user__avatar">
-          <div class="avatar__container">
-            <div class="avatar__cricle-heading-container">
-              <div class="avatar__circle">
-                <global-user-icon-vue :uData="seData.specificData.hostInfo" />
-              </div>
-              <div class="avatar__headings">
-                <h5 class="hosted__by">HOSTED BY</h5>
-                <h3 class="host__name">
-                  {{
-                    seData.specificData.hostInfo.firstName +
-                    " " +
-                    seData.specificData.hostInfo.lastName
-                  }}
-                </h3>
-              </div>
+        <div class="edit-model__inputs-section">
+          <div class="edit-model__date-time-container">
+            <div class="edit-model__inputs-container">
+              <label class="edit-model__label" for="date">Date</label>
+              <input
+                v-model="eventDate"
+                class="edit-model__name-input edit-model__inputs"
+                type="date"
+                name="date"
+              />
             </div>
-            <div class="attend--edit__container">
-              <button
-                class="attend__event"
-                type="button"
-                @click="sendAttendEventRequest"
-              >
-                ATTEND
-              </button>
-              <button
-                @click="toggleModal"
-                v-if="seData.eventData.hostId == uData._id"
-                class="edit__event"
-                type="button"
-              >
-                EDIT
-              </button>
+            <div class="edit-model__inputs-container">
+              <label class="edit-model__label" for="time">Time</label>
+              <input
+                v-model="eventTime"
+                class="edit-model__name-input edit-model__inputs"
+                type="time"
+                name="time"
+              />
             </div>
           </div>
-        </div>
-
-        <div class="detail__image">
-          <img
-            v-if="seData.eventData.imageFile"
-            class="details__image"
-            :src="`data:image/jpeg;base64,${seData.eventData.imageFile.data}`"
-            alt=""
-          />
-          <img
-            v-else
-            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw3MjAxN3wwfDF8c2VhcmNofDN8fGV2ZW50fGVufDB8MHx8fDE2NjI0Mjg0MTA&ixlib=rb-1.2.1&q=80&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450"
-            class="details__image"
-          />
-          <div class="event__detail">
-            <h3 class="box__heading">DETAILS</h3>
-            <p class="detail__text">
-              {{ seData.eventData.detail }}
-            </p>
-            <button class="map__marker" type="button">
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- COMMENT SECTION -->
-
-        <div class="write__comment">
-          <div class="avatar__circle">
-            <global-user-icon-vue :uData="uData" />
-          </div>
-          <div class="write__box">
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="firstName">Title</label>
             <input
-              v-model="commentInput"
-              class="post__box"
-              placeholder="WRITE YOUR COMMENT HERE"
+              v-model="eventTitle"
+              class="edit-model__name-input edit-model__inputs"
               type="text"
+              name="firstName"
             />
-            <button @click="sendCommentPostRequest" class="post" type="button">
-              POST
-            </button>
           </div>
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="lastName">Location</label>
+            <input
+              v-model="eventLocation"
+              class="edit-model__name-input edit-model__inputs"
+              type="text"
+              name="lastName"
+            />
+          </div>
+          <div class="edit-model__inputs-container">
+            <label class="edit-model__label" for="about">Detail</label>
+            <textarea
+              v-model="eventDescription"
+              class="edit-model__about-input"
+              name="about"
+              id="text"
+              minlength="10"
+              maxlength="200"
+            ></textarea>
+          </div>
+          <button @click="updatedEventRequest" class="edit-model__update-btn">
+            UPDATE
+          </button>
+          <button @click="deleteEventRequest" class="edit-model__update-btn">
+            DELETE EVENT
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL ENDS -->
+
+    <div v-if="seData !== null" class="view">
+      <div class="detail__heading">
+        <div @click="goBack()" class="router-link">
+          <global-arrow-icon-vue class="back__button" />
         </div>
 
-        <div
-          v-for="comment in seData.specificData.commentsInfo"
-          class="view__comment"
-        >
-          <div class="avatar__circle">
-            <global-user-icon-vue :uData="comment.commentator" />
-          </div>
-          <p class="posted__comment">
-            {{ comment.comment }}
-          </p>
+        <div class="detail__boxx">
+          <h3 class="time__date">
+            {{ seData.eventData.date + " -- " + seData.eventData.time }}
+          </h3>
+          <h1 class="event__title">{{ seData.eventData.title }}</h1>
+          <h4 class="event__location">{{ seData.eventData.location }}</h4>
         </div>
       </div>
 
-      <!-- ATTENDING -->
+      <!-- AVATAR AND BUTTONS -->
 
-      <div class="event__attendees">
-        <div class="attendees__count">
-          <h3 class="attendees__heading">ATTENDING</h3>
-          <h3 class="attendees__number">
-            ({{ seData.specificData.attendeesInfo.length }})
-          </h3>
-        </div>
+      <!-- MAIN CONTAINER -->
 
-        <div class="test__media">
+      <main class="main__eventDetails">
+        <div class="main__detail">
+          <div class="user__avatar">
+            <div class="avatar__container">
+              <div class="avatar__cricle-heading-container">
+                <div class="avatar__circle">
+                  <global-user-icon-vue :uData="seData.specificData.hostInfo" />
+                </div>
+                <div class="avatar__headings">
+                  <h5 class="hosted__by">HOSTED BY</h5>
+                  <h3 class="host__name">
+                    {{
+                      seData.specificData.hostInfo.firstName +
+                      " " +
+                      seData.specificData.hostInfo.lastName
+                    }}
+                  </h3>
+                </div>
+              </div>
+              <div class="attend--edit__container">
+                <button
+                  class="attend__event"
+                  type="button"
+                  @click="sendAttendEventRequest"
+                >
+                  ATTEND
+                </button>
+                <button
+                  @click="toggleModal"
+                  v-if="seData.eventData.hostId == uData._id"
+                  class="edit__event"
+                  type="button"
+                >
+                  EDIT
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail__image">
+            <img
+              v-if="seData.eventData.imageFile"
+              class="details__image"
+              :src="`data:image/jpeg;base64,${seData.eventData.imageFile.data}`"
+              alt=""
+            />
+            <img
+              v-else
+              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw3MjAxN3wwfDF8c2VhcmNofDN8fGV2ZW50fGVufDB8MHx8fDE2NjI0Mjg0MTA&ixlib=rb-1.2.1&q=80&q=85&fmt=jpg&crop=entropy&cs=tinysrgb&w=450"
+              class="details__image"
+            />
+            <div class="event__detail">
+              <h3 class="box__heading">DETAILS</h3>
+              <p class="detail__text">
+                {{ seData.eventData.detail }}
+              </p>
+              <button class="map__marker" type="button">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- COMMENT SECTION -->
+
+          <div class="write__comment">
+            <div class="avatar__circle">
+              <global-user-icon-vue :uData="uData" />
+            </div>
+            <div class="write__box">
+              <input
+                v-model="commentInput"
+                class="post__box"
+                placeholder="WRITE YOUR COMMENT HERE"
+                type="text"
+              />
+              <button
+                @click="sendCommentPostRequest"
+                class="post"
+                type="button"
+              >
+                POST
+              </button>
+            </div>
+          </div>
+
           <div
-            v-for="attendee in seData.specificData.attendeesInfo"
-            class="attendees__avatar"
+            v-for="comment in seData.specificData.commentsInfo"
+            class="view__comment"
           >
             <div class="avatar__circle">
-              <global-user-icon-vue :uData="attendee" />
+              <global-user-icon-vue :uData="comment.commentator" />
             </div>
-            <div class="attendees--name__status">
-              <h4 class="attendee__name">
-                {{ attendee.firstName + " " + attendee.lastName }}
-              </h4>
-              <h5 class="attendees__status">Member</h5>
+            <p class="posted__comment">
+              {{ comment.comment }}
+            </p>
+          </div>
+        </div>
+
+        <!-- ATTENDING -->
+
+        <div class="event__attendees">
+          <div class="attendees__count">
+            <h3 class="attendees__heading">ATTENDING</h3>
+            <h3 class="attendees__number">
+              ({{ seData.specificData.attendeesInfo.length }})
+            </h3>
+          </div>
+
+          <div class="test__media">
+            <div
+              v-for="attendee in seData.specificData.attendeesInfo"
+              class="attendees__avatar"
+            >
+              <div class="avatar__circle">
+                <global-user-icon-vue :uData="attendee" />
+              </div>
+              <div class="attendees--name__status">
+                <h4 class="attendee__name">
+                  {{ attendee.firstName + " " + attendee.lastName }}
+                </h4>
+                <h5 class="attendees__status">Member</h5>
+              </div>
             </div>
           </div>
         </div>
+      </main>
+      <div class="logo__bottom">
+        <h1>eventFULL</h1>
       </div>
-    </main>
-    <div class="logo__bottom">
-      <h1>eventFULL</h1>
     </div>
+    <div v-else><h1>Please Login First</h1></div>
   </div>
-  <div v-else><h1>Please Login First</h1></div>
 </template>
 
 <script>
