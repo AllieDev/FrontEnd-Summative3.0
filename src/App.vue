@@ -49,12 +49,13 @@
                 event, click on the ‘ATTEND’ button on any event on the events
                 page.
               </p>
-
+              <!-- Change from Lorem Epsom -->
               <div class="help-card__navigation-btn-container">
                 <a class="help-card__navigation-btn" href="#help-card__page-2">
                   <global-arrow-icon-vue class="up-arrow" />
                 </a>
               </div>
+              <img src="../src/App.vue" alt="" />
             </div>
             <div class="help-card__pages" id="help-card__page-2">
               <p>
