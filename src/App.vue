@@ -55,6 +55,7 @@
                   <global-arrow-icon-vue class="up-arrow" />
                 </a>
               </div>
+              <img src="../src/App.vue" alt="" />
             </div>
             <div class="help-card__pages" id="help-card__page-2">
               <p>
