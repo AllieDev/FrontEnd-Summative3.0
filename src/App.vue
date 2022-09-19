@@ -41,10 +41,13 @@
           <div v-if="isHelpCardVisible" class="help-card">
             <div class="help-card__pages" id="help-card__page-1">
               <p>
-                page-1, dolor sit amet consectetur adipisicing elit. Maiores
-                esse neque, veritatis hic aspernatur tempora, minus cum natus
-                debitis ab pariatur aut beatae sapiente sunt, cumque eveniet
-                iste doloribus voluptates?
+                EventFull is a platform connecting people to local and
+                international events. To attend an event, start by Signing up or
+                Log in <router-link to="/log-in">Here</router-link>. Events can
+                be filtered by event type next to the “FIND EVENTS” located on
+                the homepage. To let the host know your will be attending an
+                event, click on the ‘ATTEND’ button on any event on the events
+                page.
               </p>
 
               <div class="help-card__navigation-btn-container">
@@ -55,9 +58,12 @@
             </div>
             <div class="help-card__pages" id="help-card__page-2">
               <p>
-                page-2. Maiores esse neque, veritatis hic aspernatur tempora,
-                minus cum natus debitis ab pariatur aut beatae sapiente sunt,
-                cumque eveniet iste doloribus voluptates?
+                To create an Event as a Host click on the ‘CREATE EVENT’ button
+                on the navigation bar. You can also click on ‘Create’ on the
+                dropdown menu by first clicking on your profile icon or the down
+                arrow on the navigation bar. From this menu you can also go to
+                your profile and log out. You can also search through all event
+                through the search bar on the navigation menu.
               </p>
               <div class="help-card__navigation-btn-container">
                 <a class="help-card__navigation-btn" href="#help-card__page-1">
