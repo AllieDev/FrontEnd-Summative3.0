@@ -428,7 +428,7 @@ export default {
   gap: 10px;
 }
 .nav__user-icon-create-btn-and-help-btn-container {
-  max-width: 300px;
+  max-width: 380px;
   width: 100%;
 
   display: flex;
@@ -457,7 +457,9 @@ export default {
   display: none;
 }
 .nav__links-dropdown {
-  font-size: x-large;
+  font-size: 30px;
+  margin-left: -2rem;
+  margin-top: -1rem;
 }
 .nav__mobile-search-input {
   display: none;

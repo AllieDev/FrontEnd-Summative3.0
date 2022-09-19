@@ -93,6 +93,7 @@ export default {
 }
 
 .search-event__container p {
+  font-size: 0.75rem;
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
@@ -128,7 +129,7 @@ export default {
 
 .search-event__dropdown p {
   width: 100%;
-  padding: 1rem 15.8rem 1rem 1rem;
+  padding: 1rem 15.8rem 1rem 1.4rem;
 }
 
 .search-event__dropdown p:hover {
@@ -225,7 +226,7 @@ export default {
 
   .search-event__options {
     padding: 0.15rem 0.8rem;
-    gap: 1.5rem;
+    gap: 1.7rem;
   }
 
   .search-event__options p {
@@ -236,14 +237,16 @@ export default {
   .search-event__dropdown {
     background-color: #fff;
     position: absolute;
-    top: 55px;
+    top: 25px;
     z-index: 1;
     border: solid 1px #000;
+    width: 100%;
   }
 
   .search-event__dropdown p {
     width: 100%;
-    padding: 1rem 3.1rem 1rem 1.5rem;
+    padding: 1rem 3.1rem 1rem 0.7rem;
+    font-size: 0.6rem;
   }
 
   .event-list__container {
