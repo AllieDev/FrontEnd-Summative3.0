@@ -423,6 +423,8 @@ export default {
   background-color: white;
   border-left: 1px solid black;
   border-radius: 0 5px 5px 0;
+
+  cursor: pointer;
 }
 .useIsNotLoggedIn {
   max-width: 80px;
