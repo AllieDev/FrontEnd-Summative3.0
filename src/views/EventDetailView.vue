@@ -355,6 +355,10 @@ export default {
   overflow: hidden scroll;
 }
 
+.view::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (max-width: 800px) {
   .view {
     height: calc(100vh - 70px);
