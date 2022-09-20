@@ -54,4 +54,18 @@ export default {
   font-weight: 100;
   color: white;
 }
+
+@media screen and (max-width: 800px) {
+  .icon__lastNameInitial,
+  .icon__firstNameInitial {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .icon__lastNameInitial,
+  .icon__firstNameInitial {
+    font-size: 1rem;
+  }
+}
 </style>
