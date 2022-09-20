@@ -271,6 +271,7 @@ export default {
 }
 .profile_edit-btn {
   align-self: flex-end;
+  cursor: pointer;
 }
 .profile__user-created-events {
   width: 100%;
@@ -329,6 +330,7 @@ export default {
 }
 .edit-model__close-btn {
   position: absolute;
+  cursor: pointer;
   right: 0;
   top: 0;
 
@@ -372,7 +374,7 @@ export default {
   margin-top: 30px;
   width: 100%;
   height: 50px;
-
+  cursor: pointer;
   color: white;
   background-color: red;
   border: none;

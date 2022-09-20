@@ -105,6 +105,7 @@ export default {
   border: solid 1px #000;
   margin-left: 2rem;
   position: relative;
+  cursor: pointer;
 }
 
 .search-event__options {
