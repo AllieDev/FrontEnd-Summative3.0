@@ -135,6 +135,7 @@
         :seData="specificEventDetail"
         :uData="userData"
         :eData="isSearching ? searchEventData : eventData"
+        :isUserLogedIn="isUserLogedIn"
         @unvisibleSearchInput="hideSearchInput"
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"

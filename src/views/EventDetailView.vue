@@ -112,7 +112,8 @@
                   </h3>
                 </div>
               </div>
-              <div class="attend--edit__container">
+
+              <div v-if="isUserLogedIn == true" class="attend--edit__container">
                 <button
                   class="attend__event"
                   type="button"
@@ -157,7 +158,7 @@
 
           <!-- COMMENT SECTION -->
 
-          <div class="write__comment">
+          <div v-if="isUserLogedIn" class="write__comment">
             <div class="avatar__circle">
               <global-user-icon-vue :uData="uData" />
             </div>
@@ -250,7 +251,7 @@ export default {
       commentInput: "",
     };
   },
-  props: ["uData", "seData"],
+  props: ["uData", "seData", "isUserLogedIn"],
   methods: {
     toggleModal() {
       this.isEditMode = !this.isEditMode;
