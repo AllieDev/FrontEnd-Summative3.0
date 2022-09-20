@@ -8,8 +8,12 @@
             v-if="isSearchInputAvailable"
             class="nav__search-input-container"
           >
-            <input class="nav__search-input" type="text" />
-            <button class="nav__search-btn" type="button">
+            <input v-model="navSearch" class="nav__search-input" type="text" />
+            <button
+              @click="filterSearchedEventData"
+              class="nav__search-btn"
+              type="button"
+            >
               <global-search-icon-vue />
             </button>
           </div>
@@ -41,12 +45,15 @@
           <div v-if="isHelpCardVisible" class="help-card">
             <div class="help-card__pages" id="help-card__page-1">
               <p>
-                page-1, dolor sit amet consectetur adipisicing elit. Maiores
-                esse neque, veritatis hic aspernatur tempora, minus cum natus
-                debitis ab pariatur aut beatae sapiente sunt, cumque eveniet
-                iste doloribus voluptates?
+                EventFull is a platform connecting people to local and
+                international events. To attend an event, start by Signing up or
+                Log in <router-link to="/log-in">Here</router-link>. Events can
+                be filtered by event type next to the “FIND EVENTS” located on
+                the homepage. To let the host know your will be attending an
+                event, click on the ‘ATTEND’ button on any event on the events
+                page.
               </p>
-
+              <!-- Change from Lorem Epsom -->
               <div class="help-card__navigation-btn-container">
                 <a class="help-card__navigation-btn" href="#help-card__page-2">
                   <global-arrow-icon-vue class="up-arrow" />
@@ -55,9 +62,12 @@
             </div>
             <div class="help-card__pages" id="help-card__page-2">
               <p>
-                page-2. Maiores esse neque, veritatis hic aspernatur tempora,
-                minus cum natus debitis ab pariatur aut beatae sapiente sunt,
-                cumque eveniet iste doloribus voluptates?
+                To create an Event as a Host click on the ‘CREATE EVENT’ button
+                on the navigation bar. You can also click on ‘Create’ on the
+                dropdown menu by first clicking on your profile icon or the down
+                arrow on the navigation bar. From this menu you can also go to
+                your profile and log out. You can also search through all event
+                through the search bar on the navigation menu.
               </p>
               <div class="help-card__navigation-btn-container">
                 <a class="help-card__navigation-btn" href="#help-card__page-1">
@@ -70,14 +80,21 @@
         </div>
         <!-- Dropdown Menu Starts -->
         <div v-if="isDropDownVisible" :class="navDropDownClasses">
-          <router-link to="/" class="drop-down__links">Events</router-link>
           <router-link
+            @click="toggleDropDownMenue"
+            to="/"
+            class="drop-down__links"
+            >Events</router-link
+          >
+          <router-link
+            @click="toggleDropDownMenue"
             v-if="isUserLogedIn"
             to="/create-event"
             class="drop-down__links"
             >Create</router-link
           >
           <router-link
+            @click="toggleDropDownMenue"
             v-if="isUserLogedIn"
             to="/profile"
             class="drop-down__links"
@@ -117,7 +134,7 @@
       <router-view
         :seData="specificEventDetail"
         :uData="userData"
-        :eData="eventData"
+        :eData="isSearching ? searchEventData : eventData"
         @unvisibleSearchInput="hideSearchInput"
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"
@@ -162,6 +179,8 @@ export default {
   },
   data() {
     return {
+      isSearching: false,
+      navSearch: "",
       isUserLogedIn: false,
       isDropDownVisible: false,
       isSearchInputAvailable: true,
@@ -176,6 +195,7 @@ export default {
         memberSince: "Now",
         about: "This is a little about me...",
       },
+      searchEventData: [],
       eventData: null,
       specificEventDetail: null,
     };
@@ -284,6 +304,21 @@ export default {
       this.getListOfAllEventsRequest();
     },
     // ----------------------------------------------------------------
+    filterSearchedEventData() {
+      if (!this.navSearch) {
+        this.isSearching = false;
+      } else {
+        this.isSearching = true;
+        this.searchEventData = [];
+        for (let event of this.eventData) {
+          if (
+            event.title.toLowerCase().includes(this.navSearch.toLowerCase())
+          ) {
+            this.searchEventData.push(event);
+          }
+        }
+      }
+    },
   },
   computed: {
     navClasses() {
@@ -388,6 +423,8 @@ export default {
   background-color: white;
   border-left: 1px solid black;
   border-radius: 0 5px 5px 0;
+
+  cursor: pointer;
 }
 .useIsNotLoggedIn {
   max-width: 80px;
@@ -399,7 +436,7 @@ export default {
   gap: 10px;
 }
 .nav__user-icon-create-btn-and-help-btn-container {
-  max-width: 300px;
+  max-width: 380px;
   width: 100%;
 
   display: flex;
@@ -428,7 +465,9 @@ export default {
   display: none;
 }
 .nav__links-dropdown {
-  font-size: x-large;
+  font-size: 30px;
+  margin-left: -2rem;
+  margin-top: -1rem;
 }
 .nav__mobile-search-input {
   display: none;
@@ -605,6 +644,13 @@ export default {
 
     display: flex;
   }
+
+  .nav__user-icon-container {
+    text-decoration: none;
+    height: 45px;
+    width: 45px;
+  }
+
   .nav__mobile-menu-icon {
     display: flex;
   }
@@ -616,6 +662,14 @@ export default {
     height: 100vh;
     width: 100vw;
     /* border: 10px solid black; */
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .nav__user-icon-container {
+    text-decoration: none;
+    height: 40px;
+    width: 40px;
   }
 }
 </style>

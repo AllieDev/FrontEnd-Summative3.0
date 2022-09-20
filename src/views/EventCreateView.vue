@@ -2,7 +2,13 @@
   <div class="view">
     <div class="event">
       <div class="event__container">
-        <h3 class="event__header">Create Event</h3>
+        <div>
+          <div class="event-container_flex">
+            <global-arrow-icon-vue @click="goBack()" class="back__button" />
+            <h3 class="event__header">Create Event</h3>
+          </div>
+        </div>
+
         <form class="event__form" action="./events">
           <div>
             <label class="event__label" for="title">Title</label>
@@ -86,7 +92,12 @@
 </template>
 
 <script>
+import GlobalArrowIconVue from "../components/icons/GlobalArrowIcon.vue";
+import router from "../router";
 export default {
+  components: {
+    GlobalArrowIconVue,
+  },
   data() {
     return {
       eventTitle: null,
@@ -100,6 +111,9 @@ export default {
   },
   props: [],
   methods: {
+    goBack() {
+      router.back();
+    },
     displayImage() {
       const reader = new FileReader();
       reader.readAsDataURL(this.imageFile);
@@ -162,6 +176,17 @@ export default {
 
   /* border: 5px solid rgb(235, 0, 0); */
 }
+.back__button {
+  cursor: pointer;
+  margin: 0rem 0rem 4rem 0rem;
+  height: 35px;
+}
+
+.event-container_flex {
+  display: flex;
+  gap: 4.5rem;
+  align-items: flex-start;
+}
 
 .event__conatinerTwo {
   padding: 20px;
@@ -177,7 +202,6 @@ export default {
 
 .event__header {
   /* border: 1px solid black; */
-  margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
 }

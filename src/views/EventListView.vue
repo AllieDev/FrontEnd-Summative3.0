@@ -65,9 +65,15 @@ export default {
   overflow: hidden scroll;
   /* background-color: rgb(173, 230, 200); */
 }
+
+.view::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (max-width: 800px) {
   .view {
     height: calc(100vh - 70px);
+    margin: 5%;
   }
 }
 /* ---------------------------------------------------------------- */
@@ -83,9 +89,11 @@ export default {
 .search-event__container h3 {
   font-family: "Anton", sans-serif;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .search-event__container p {
+  font-size: 0.75rem;
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
@@ -102,11 +110,13 @@ export default {
 .search-event__options {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.4rem 1.5rem;
 }
 
 .search-event__options p {
   margin-right: 15rem;
+  font-size: 12px;
 }
 
 .search-event__dropdown {
@@ -119,7 +129,7 @@ export default {
 
 .search-event__dropdown p {
   width: 100%;
-  padding: 1rem 15.8rem 1rem 1rem;
+  padding: 1rem 15.8rem 1rem 1.4rem;
 }
 
 .search-event__dropdown p:hover {
@@ -197,44 +207,60 @@ export default {
   .search-event__mobile {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin: 5rem 2rem 0rem;
+    margin: -3.5rem 0;
   }
 
   .search-event__container {
-    justify-content: flex-start;
+    justify-content: center;
+    width: 100%;
+    gap: 1.5rem;
   }
 
-  .search-event__sub-container {
-    margin-left: 0;
+  .search-event__container h3 {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
+  .search-event__sub-container {
+    margin-left: -0.5rem;
+  }
+
+  .search-event__options {
+    padding: 0.15rem 0.8rem;
+    gap: 1.7rem;
+  }
+
   .search-event__options p {
+    font-size: 0.6rem;
     margin-right: 5.2rem;
   }
 
   .search-event__dropdown {
     background-color: #fff;
     position: absolute;
-    top: 55px;
+    top: 25px;
     z-index: 1;
     border: solid 1px #000;
+    width: 100%;
   }
 
   .search-event__dropdown p {
     width: 100%;
-    padding: 1rem 3.1rem 1rem 1.5rem;
+    padding: 1rem 3.1rem 1rem 0.7rem;
+    font-size: 0.6rem;
   }
 
-  .search-event__container h3 {
-    font-size: 1.3rem;
-    margin-right: 1rem;
+  .event-list__container {
+    max-width: 1200px;
+    margin: auto;
+    margin-bottom: 10rem;
+    margin-top: -12rem;
   }
-
   .event-list__event-cards {
     max-width: 320px;
+    gap: 5.5rem;
   }
   .event-list__header {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
   }
 }
 </style>
