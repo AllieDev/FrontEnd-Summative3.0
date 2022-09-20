@@ -506,7 +506,7 @@ export default {
 @media screen and (max-width: 800px) {
   .attend--edit__container {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
   }
 }
 
