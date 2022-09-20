@@ -113,17 +113,25 @@
                 </div>
               </div>
 
-              <div v-if="isUserLogedIn == true" class="attend--edit__container">
+              <div class="attend--edit__container">
                 <button
+                  v-if="isUserLogedIn == true"
                   class="attend__event"
                   type="button"
                   @click="sendAttendEventRequest"
                 >
                   ATTEND
                 </button>
+                <router-link v-else to="/log-in"
+                  ><button class="attend__event">Attend</button>
+                </router-link>
+
                 <button
                   @click="toggleModal"
-                  v-if="seData.eventData.hostId == uData._id"
+                  v-if="
+                    (seData.eventData.hostId == uData._id) &
+                    (isUserLogedIn == true)
+                  "
                   class="edit__event"
                   type="button"
                 >
