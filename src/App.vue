@@ -445,8 +445,8 @@ export default {
 
 .nav__user-icon-container {
   text-decoration: none;
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
 }
 .nav__create-event-btn {
   text-decoration: none;
@@ -642,6 +642,13 @@ export default {
 
     display: flex;
   }
+
+  .nav__user-icon-container {
+    text-decoration: none;
+    height: 45px;
+    width: 45px;
+  }
+
   .nav__mobile-menu-icon {
     display: flex;
   }
@@ -653,6 +660,14 @@ export default {
     height: 100vh;
     width: 100vw;
     /* border: 10px solid black; */
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .nav__user-icon-container {
+    text-decoration: none;
+    height: 40px;
+    width: 40px;
   }
 }
 </style>
