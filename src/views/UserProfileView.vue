@@ -127,11 +127,19 @@ export default {
   props: ["uData", "eData"],
   methods: {
     emitUserInfoUpdateRequest() {
-      this.$emit("updateUserInfo", {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        about: this.about,
-      });
+      if (this.firstName != "" && this.lastName != "") {
+        this.$emit("updateUserInfo", {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          about: this.about,
+        });
+        alert("Your information was updated successfully");
+        this.toggleModal();
+      } else {
+        alert(
+          "Please make sure first-name and last-name input fields are not empty"
+        );
+      }
     },
     setDataForUpdateModel() {
       this.firstName = this.uData.firstName;
