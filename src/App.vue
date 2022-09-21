@@ -250,6 +250,8 @@ export default {
           body: formData,
         });
         this.getListOfAllEventsRequest();
+        alert("Your event was successfully created!");
+        router.push("/");
       }
     },
     // ----------------------------------------------------------------
@@ -300,6 +302,9 @@ export default {
         this.userData = data;
         this.isUserLogedIn = true;
         this.$router.replace("/");
+      } else if (data.message && localStorage.getItem("token")) {
+        alert(data.message);
+        localStorage.clear();
       }
       this.getListOfAllEventsRequest();
     },
@@ -317,6 +322,18 @@ export default {
             this.searchEventData.push(event);
           }
         }
+      }
+    },
+    logUserIfUserExists() {
+      const email = localStorage.getItem("userEmailDetail");
+      const password = localStorage.getItem("userPassDetail");
+
+      if (email != null && password != null) {
+        this.submitLoginRequest({
+          email: email,
+          password: password,
+        });
+        // console.log("running on home page!");
       }
     },
   },
@@ -338,10 +355,11 @@ export default {
   },
   created() {
     this.getListOfAllEventsRequest();
-    this.submitLoginRequest({
-      email: localStorage.getItem("userEmailDetail"),
-      password: localStorage.getItem("userPassDetail"),
-    });
+    this.logUserIfUserExists();
+    // this.submitLoginRequest({
+    //   email: localStorage.getItem("userEmailDetail"),
+    //   password: localStorage.getItem("userPassDetail"),
+    // });
   },
 };
 </script>

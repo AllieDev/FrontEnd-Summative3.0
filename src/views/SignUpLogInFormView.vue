@@ -37,7 +37,12 @@
     </div>
 
     <div v-else class="signup__container">
-      <form class="signup__form" action="./events">
+      <form
+        @submit.prevent
+        @keypress.enter="createUserAccountRequest"
+        class="signup__form"
+        action="./events"
+      >
         <h3 class="signup__header">SIGN IN</h3>
         <div class="signup__inputs-container">
           <div>
@@ -99,7 +104,9 @@
             />
           </div>
         </div>
-        <button @click="createUserAccountRequest">SIGN UP</button>
+        <button @click.prevent="createUserAccountRequest" type="button">
+          SIGN UP
+        </button>
         <div class="signup__login">
           <p>already have an account? <a @click="swapToLogInForm">log in</a></p>
         </div>
@@ -130,42 +137,64 @@ export default {
       this.isUser = true;
     },
     emitUserLoginData() {
-      const userData = {
-        email: this.email,
-        password: this.password,
-      };
-      this.$emit("loginRequest", userData);
-      this.savePassToLocalStorage(userData);
+      if (this.email != "" && this.password != "") {
+        const userData = {
+          email: this.email,
+          password: this.password,
+        };
+        this.$emit("loginRequest", userData);
+        this.savePassToLocalStorage(userData);
+      } else {
+        alert("Please fill in all the fields");
+      }
     },
     savePassToLocalStorage(userData) {
       localStorage.setItem("userEmailDetail", userData.email);
       localStorage.setItem("userPassDetail", userData.password);
     },
     emitUserLoginDataIfUserExists() {
-      if (
-        localStorage.getItem("userEmailDetail") &&
-        localStorage.getItem("userPassDetail")
-      ) {
+      const email = localStorage.getItem("userEmailDetail");
+      const password = localStorage.getItem("userPassDetail");
+
+      if (email != null && password != null) {
         const userData = {
           email: localStorage.getItem("userEmailDetail"),
           password: localStorage.getItem("userPassDetail"),
         };
         this.$emit("loginRequest", userData);
+        // console.log("running");
       }
     },
     async createUserAccountRequest() {
-      const response = await fetch("http://localhost:3000/users/sign-up", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password,
-        }),
-      });
-      const data = await response.json();
-      console.log(data);
+      if (
+        this.firstName != "" &&
+        this.lastName != "" &&
+        this.email != "" &&
+        this.password != "" &&
+        this.confirmPassword != ""
+      ) {
+        if (this.password == this.confirmPassword) {
+          const response = await fetch("http://localhost:3000/users/sign-up", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName: this.firstName,
+              lastName: this.lastName,
+              email: this.email,
+              password: this.password,
+            }),
+          });
+          const data = await response.json();
+          console.log(data.message);
+          if (data.message == "try a different email") {
+            alert("try a different email");
+          }
+        } else {
+          alert("passwords do not match");
+        }
+      } else {
+        alert("Please fill in all the fields");
+      }
     },
   },
   created() {
