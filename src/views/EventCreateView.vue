@@ -9,7 +9,7 @@
           </div>
         </div>
 
-        <form class="event__form" action="./events">
+        <form @submit.prevent class="event__form" action="./events">
           <div>
             <label class="event__label" for="title">Title</label>
             <input
@@ -61,7 +61,7 @@
               required
             ></textarea>
           </div>
-          <button @click="emitCreateEventData" href="#">PUBLISH</button>
+          <button @click.prevent="emitCreateEventData" href="#">PUBLISH</button>
         </form>
       </div>
       <div class="event__conatinerTwo">
@@ -100,11 +100,11 @@ export default {
   },
   data() {
     return {
-      eventTitle: null,
-      eventLocation: null,
-      eventDate: null,
-      eventTime: null,
-      eventDescription: null,
+      eventTitle: "",
+      eventLocation: "",
+      eventDate: "",
+      eventTime: "",
+      eventDescription: "",
       imageFile: "",
       imageFileUrl: "",
     };
@@ -122,14 +122,24 @@ export default {
       });
     },
     emitCreateEventData() {
-      this.$emit("uploadImage", {
-        title: this.eventTitle,
-        location: this.eventLocation,
-        date: this.eventDate,
-        time: this.eventTime,
-        detail: this.eventDescription,
-        imageFile: this.imageFile,
-      });
+      if (
+        this.eventTitle != "" &&
+        this.eventLocation != "" &&
+        this.eventDate != "" &&
+        this.eventTime != "" &&
+        this.eventDescription != ""
+      ) {
+        this.$emit("uploadImage", {
+          title: this.eventTitle,
+          location: this.eventLocation,
+          date: this.eventDate,
+          time: this.eventTime,
+          detail: this.eventDescription,
+          imageFile: this.imageFile,
+        });
+      } else {
+        alert("Please fill all the fields");
+      }
     },
   },
   watch() {},
