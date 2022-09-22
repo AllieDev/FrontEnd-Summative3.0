@@ -353,7 +353,7 @@ export default {
 }
 .nav {
   height: 100px;
-  box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.156);
+  box-shadow: 5px 5px 15px 1px rgba(138, 138, 138, 0.771);
 
   display: flex;
   justify-content: center;
@@ -465,12 +465,17 @@ export default {
   display: none;
 }
 .nav__links-dropdown {
+  cursor: pointer;
   font-size: 30px;
   margin-left: -2rem;
   margin-top: -1rem;
 }
 .nav__mobile-search-input {
   display: none;
+}
+
+.help-icon__container {
+  cursor: pointer;
 }
 
 .help-card::-webkit-scrollbar {
@@ -577,8 +582,23 @@ export default {
   font-family: "Abel", sans-serif;
   color: black;
 }
+
+@media screen and (max-width: 800px) {
+  .drop-down__links {
+    margin-bottom: -1rem;
+    margin-top: -12rem;
+  }
+}
 .drop-down__login-logout-container {
   width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .drop-down__login-logout-container {
+    width: 100%;
+    position: relative;
+    top: 10rem;
+  }
 }
 .drop-down__log-btns {
   text-decoration: none;

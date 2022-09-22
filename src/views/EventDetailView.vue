@@ -114,11 +114,20 @@
               </div>
               <div class="attend--edit__container">
                 <button
+                  v-if="!isCurrentUserAttending"
                   class="attend__event"
                   type="button"
                   @click="sendAttendEventRequest"
                 >
                   ATTEND
+                </button>
+                <button
+                  v-else
+                  class="attend__event unattend"
+                  type="button"
+                  @click="sendAttendEventRequest"
+                >
+                  UNATTEND
                 </button>
                 <button
                   @click="toggleModal"
@@ -245,13 +254,38 @@ export default {
       eventDate: null,
       eventTime: null,
       eventDescription: null,
+      isCurrentUserAttending: false,
 
       isEditMode: false,
       commentInput: "",
     };
   },
+
   props: ["uData", "seData"],
+  watch: {
+    seData() {
+      this.updateAttendButton();
+    },
+  },
   methods: {
+    updateAttendButton() {
+      // get loged in user email
+
+      const currentUserEmail = localStorage.userEmailDetail;
+
+      // get list of users attending the current evet
+
+      const attendeeList = this.seData.specificData.attendeesInfo;
+
+      // use the emails to check if logged in user is in the list of attendees
+
+      const checkEmails = (attendee) => {
+        return currentUserEmail === attendee.email;
+      };
+      this.isCurrentUserAttending = attendeeList.some(checkEmails);
+
+      // if logged in user is attending show unattending button else shoe attending button
+    },
     toggleModal() {
       this.isEditMode = !this.isEditMode;
 
@@ -278,6 +312,7 @@ export default {
         }
       );
       const data = await response.json();
+      console.log("updating button");
       alert(data.message);
       this.$emit("specificEventDetail", this.$props.seData.eventData);
     },
@@ -349,6 +384,7 @@ export default {
   },
   computed: {},
   created() {
+    this.updateAttendButton();
     this.$emit("unvisibleSearchInput");
   },
 };
@@ -530,19 +566,51 @@ export default {
   letter-spacing: 2px;
 }
 
+.unattend {
+  border: 2px solid #e35353;
+  background-color: #f1f1f1;
+  color: #333333;
+  width: 6rem;
+  height: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .unattend {
+    border: 2px solid #e35353;
+    background-color: #f1f1f1;
+    color: #232323;
+    width: 6rem;
+    height: 2rem;
+  }
+}
+
+.attend__event:hover,
+.edit__event:hover {
+  cursor: pointer;
+  border: 2px solid #e35353;
+  background-color: #ffffff;
+  color: #333333;
+}
+
 @media screen and (max-width: 800px) {
   .attend__event,
   .edit__event {
     cursor: pointer;
-    border: 0px solid #e35353;
+    border: 2px solid #e35353;
     border-radius: 20px;
-    background-color: #e35353;
-    color: #f1f1f1;
+    /* background-color: #e35353; */
+    color: #333333;
     width: 5rem;
     height: 2rem;
     font-family: anton, sans-serif;
     font-size: 14px;
     letter-spacing: 2px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .attend__event {
+    color: white;
   }
 }
 

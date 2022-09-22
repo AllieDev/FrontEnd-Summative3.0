@@ -72,6 +72,7 @@
             </p>
           </div>
         </div>
+        <h4 class="abt">ABOUT</h4>
         <p class="profile__about">
           {{ uData.about }}
         </p>
@@ -79,7 +80,7 @@
         <global-edit-icon-vue class="profile_edit-btn" @click="toggleModal" />
       </div>
       <div class="profile__user-created-events">
-        <div class="profile__subtitle">CREATED EVENTS</div>
+        <div class="profile__subtitle">MY EVENTS</div>
         <div class="profile__events-container">
           <global-event-list-vue
             v-for="event in findListOfUsersCreatedEvents"
@@ -90,7 +91,7 @@
         </div>
       </div>
       <div class="profile__user-to-attend-events">
-        <div class="profile__subtitle">TO ATTEND</div>
+        <div class="profile__subtitle">ATTENDING EVENTS</div>
         <div class="profile__events-container">
           <global-event-list-vue
             v-for="event in findListOfUsersToAttendEvents"
@@ -179,6 +180,7 @@ export default {
 
 <style scoped>
 .view {
+  margin: 2%;
   height: calc(100vh - 100px);
   overflow: hidden scroll;
 }
@@ -190,36 +192,46 @@ export default {
 .profile {
   padding: 20px;
   width: 100%;
-  margin: auto;
-
+  margin-top: 4rem;
   overflow: scroll;
-
-  background-color: white;
-
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 50px;
 }
+
+@media screen and (max-width: 800px) {
+  .profile {
+    margin-top: 1rem;
+  }
+}
 .profile__subtitle {
   font-family: "Anton", sans-serif;
-  font-size: x-large;
-  font-weight: 100;
+  letter-spacing: 1px;
+  font-size: 20px;
   max-width: 1000px;
   width: 100%;
   margin: auto;
-  margin-top: -20px;
+  margin-top: 0rem;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__subtitle {
+    margin-top: -3rem;
+    font-size: 17px;
+  }
 }
 .profile__events-container {
-  min-height: 700px;
+  min-height: 400px;
   max-width: 1200px;
   margin: auto;
   overflow: scroll hidden;
 
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: start;
   gap: 20px;
 }
 .profile__events-container::-webkit-scrollbar {
@@ -252,25 +264,48 @@ export default {
 
 .profile__username {
   font-family: "Anton", sans-serif;
+  letter-spacing: 1px;
   font-size: x-large;
   width: fit-content;
   margin-right: 10px;
 }
 .profile__membersince {
   font-family: "Abel", sans-serif;
-  font-size: medium;
+  font-size: 16px;
   color: rgb(164, 164, 164);
 }
+
+.abt {
+  margin-top: 30px;
+  font-family: anton, sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+@media screen and (max-width: 800px) {
+  .abt {
+    font-size: 16px;
+  }
+}
 .profile__about {
-  margin-top: 10px;
   font-family: "Abel", sans-serif;
-  font-size: medium;
+  font-size: 18px;
   width: 100%;
   outline: none;
-  padding: 0 20px;
+  /* padding: 0 20px; */
 }
+
 .profile_edit-btn {
-  align-self: flex-end;
+  /* align-self: flex-end; */
+  position: relative;
+  bottom: 5.5rem;
+  left: 57rem;
+}
+
+@media screen and (max-width: 800px) {
+  .profile_edit-btn {
+    left: 27rem;
+  }
 }
 .profile__user-created-events {
   width: 100%;
@@ -291,7 +326,7 @@ export default {
     font-size: small;
   }
   .profile__about {
-    font-size: small;
+    font-size: 16px;
   }
 }
 /* ------------------------------------------------ */
@@ -376,5 +411,8 @@ export default {
   color: white;
   background-color: red;
   border: none;
+}
+.edit-icon__svg {
+  cursor: pointer;
 }
 </style>
