@@ -19,13 +19,13 @@
           </div>
         </div>
         <div :class="navClasses">
-          <router-link
+          <div
             v-if="isUserLogedIn"
-            to="/profile"
+            @click="toggleDropDownMenue"
             class="nav__user-icon-container"
           >
             <global-user-icon-vue :uData="userData" />
-          </router-link>
+          </div>
           <p
             v-if="isUserLogedIn"
             @click="toggleDropDownMenue"
@@ -476,6 +476,7 @@ export default {
   text-decoration: none;
   height: 50px;
   width: 50px;
+  cursor: pointer;
 }
 .nav__create-event-btn {
   text-decoration: none;
@@ -600,7 +601,7 @@ export default {
   z-index: 1;
   position: absolute;
   top: 101px;
-  right: 150px;
+  right: 250px;
 
   padding: 10px;
   height: 200px;
