@@ -1,7 +1,11 @@
 <template>
   <div class="view">
     <div v-if="isUser" class="login__container">
-      <form class="login__form" action="./events">
+      <form
+        @keypress.enter="emitUserLoginData"
+        class="login__form"
+        action="./events"
+      >
         <h3 class="login__header">LOG IN</h3>
         <div class="login__inputs-container">
           <div>
@@ -185,9 +189,16 @@ export default {
             }),
           });
           const data = await response.json();
-          console.log(data.message);
+
           if (data.message == "try a different email") {
             alert("try a different email");
+          } else if (
+            data.message == "You have successfully created an acount!"
+          ) {
+            alert(data.message);
+            location.reload();
+          } else {
+            alert(data.message);
           }
         } else {
           alert("passwords do not match");

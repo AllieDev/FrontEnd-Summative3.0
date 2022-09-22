@@ -13,7 +13,10 @@
             @click="toggleModal"
           />
         </div>
-        <div class="edit-model__inputs-section">
+        <div
+          @keypress.enter="updatedEventRequest"
+          class="edit-model__inputs-section"
+        >
           <div class="edit-model__date-time-container">
             <div class="edit-model__inputs-container">
               <label class="edit-model__label" for="date">Date</label>
