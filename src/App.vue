@@ -26,7 +26,18 @@
           >
             <global-user-icon-vue :uData="userData" />
           </router-link>
-          <p @click="toggleDropDownMenue" class="nav__links-dropdown">⌄</p>
+          <p
+            v-if="isUserLogedIn"
+            @click="toggleDropDownMenue"
+            class="nav__links-dropdown"
+          >
+            ⌄
+          </p>
+
+          <router-link v-else class="nav__create-event-btn1" to="/log-in"
+            >LOG IN</router-link
+          >
+
           <router-link
             v-if="isUserLogedIn"
             to="/create-event"
@@ -85,13 +96,6 @@
             to="/"
             class="drop-down__links"
             >Events</router-link
-          >
-          <router-link
-            @click="toggleDropDownMenue"
-            v-if="isUserLogedIn"
-            to="/create-event"
-            class="drop-down__links"
-            >Create</router-link
           >
           <router-link
             @click="toggleDropDownMenue"
@@ -449,7 +453,7 @@ export default {
   cursor: pointer;
 }
 .useIsNotLoggedIn {
-  max-width: 80px;
+  max-width: 150px;
   width: 100%;
   /* border: 1px solid black; */
   display: flex;
@@ -481,6 +485,15 @@ export default {
   background-color: rgb(244, 60, 60);
   color: white;
 
+  border: none;
+  border-radius: 20px;
+}
+.nav__create-event-btn1 {
+  text-decoration: none;
+  font-size: medium;
+  padding: 8px 10px;
+  background-color: rgb(244, 60, 60);
+  color: white;
   border: none;
   border-radius: 20px;
 }
@@ -666,6 +679,7 @@ export default {
   .nav__create-event-btn {
     display: none;
   }
+
   .nav__help-btn {
     display: none;
   }
