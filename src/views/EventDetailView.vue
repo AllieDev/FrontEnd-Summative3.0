@@ -166,7 +166,7 @@
 
           <!-- COMMENT SECTION -->
 
-          <div v-if="isUserLogedIn" class="write__comment">
+          <div class="write__comment">
             <div class="avatar__circle">
               <global-user-icon-vue :uData="uData" />
             </div>
@@ -232,7 +232,6 @@
         <h1>eventFULL</h1>
       </div>
     </div>
-    <div v-else><h1>Please Login First</h1></div>
   </div>
 </template>
 
@@ -291,6 +290,9 @@ export default {
       this.$emit("specificEventDetail", this.$props.seData.eventData);
     },
     async sendCommentPostRequest() {
+      if (!this.$props.isUserLogedIn) {
+        window.alert("You need to Log In before you can comment");
+      }
       console.log("sending comment post request");
       console.log(this.commentInput);
       const response = await fetch(
@@ -881,6 +883,7 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+  cursor: pointer;
 
   max-width: 30px;
 }
@@ -923,7 +926,7 @@ export default {
   margin-top: 30px;
   width: 100%;
   height: 50px;
-
+  cursor: pointer;
   color: white;
   background-color: red;
   border: none;
@@ -943,7 +946,6 @@ export default {
     margin-top: 20px;
     width: 100%;
     height: 40px;
-
     color: white;
     background-color: red;
     border: none;
