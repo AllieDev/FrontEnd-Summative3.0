@@ -115,9 +115,7 @@
 
               <div class="attend--edit__container">
                 <button
-
                   v-if="!isCurrentUserAttending"
-
                   class="attend__event"
                   type="button"
                   @click="sendAttendEventRequest"
@@ -130,7 +128,7 @@
 
                 <button
                   v-else
-                  class="attend__event unattend"
+                  class="attend__event unattend white-button"
                   type="button"
                   @click="sendAttendEventRequest"
                 >
@@ -258,7 +256,6 @@ export default {
   },
   data() {
     return {
-
       isCurrentUserAttending: false,
 
       eventTitle: "",
@@ -274,6 +271,7 @@ export default {
   props: ["uData", "seData", "isUserLogedIn"],
   methods: {
     updateAttendButton() {
+      console.log("updateAttendButton");
       // get loged in user email
 
       const currentUserEmail = localStorage.userEmailDetail;
@@ -590,21 +588,21 @@ export default {
 
 .unattend {
   border: 2px solid #e35353;
-  background-color: #f1f1f1;
+  background-color: #ffffff;
   color: #333333;
   width: 6rem;
   height: 2rem;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .unattend {
     border: 2px solid #e35353;
-    background-color: #f1f1f1;
-    color: #232323;
+    background-color: #ffffff;
+    color: #333333;
     width: 6rem;
     height: 2rem;
   }
-}
+} */
 
 .attend__event:hover,
 .edit__event:hover {
@@ -621,7 +619,7 @@ export default {
     border: 2px solid #e35353;
     border-radius: 20px;
     /* background-color: #e35353; */
-    color: #333333;
+    color: #ffffff;
     width: 5rem;
     height: 2rem;
     font-family: anton, sans-serif;
@@ -631,8 +629,10 @@ export default {
 }
 
 @media screen and (max-width: 800px) {
-  .attend__event {
-    color: white;
+  .white-button {
+    color: #333333;
+    width: 6rem;
+    height: 2rem;
   }
 }
 
