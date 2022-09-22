@@ -84,6 +84,7 @@ export default {
   max-width: 1200px;
   margin: auto;
   margin-top: 9rem;
+  margin-left: 13rem;
 }
 
 .search-event__container h3 {
@@ -176,7 +177,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 5rem 7rem 0rem;
+    margin: -2rem 0rem -10rem 0rem;
   }
   .search-event__container {
     margin: 8rem 0rem 8rem;
