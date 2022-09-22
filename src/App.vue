@@ -5,6 +5,7 @@
         <div class="nav__logo-and-search-input-container">
           <router-link to="/" class="nav__logo">eventFULL</router-link>
           <div
+            @keypress.enter="filterSearchedEventData"
             v-if="isSearchInputAvailable"
             class="nav__search-input-container"
           >

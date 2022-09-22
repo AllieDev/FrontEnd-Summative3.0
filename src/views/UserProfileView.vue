@@ -15,7 +15,10 @@
             <global-user-icon-vue :uData="uData" />
           </div>
         </div>
-        <div class="edit-model__inputs-section">
+        <div
+          @keypress.enter="emitUserInfoUpdateRequest"
+          class="edit-model__inputs-section"
+        >
           <div class="edit-model__inputs-container">
             <label class="edit-model__label" for="firstName">FIRST-NAME</label>
             <input
