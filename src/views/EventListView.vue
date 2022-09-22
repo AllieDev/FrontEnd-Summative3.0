@@ -100,6 +100,7 @@ export default {
   cursor: pointer;
 }
 .search-event__sub-container {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   border: solid 1px #000;
