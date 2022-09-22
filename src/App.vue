@@ -229,9 +229,10 @@ export default {
     },
     logOutUser() {
       localStorage.clear();
-      location.reload();
       this.isUserLogedIn = false;
       this.isDropDownVisible = false;
+      router.push("/");
+      // location.reload();
     },
     async createEventRequest(data) {
       if (!data) {
