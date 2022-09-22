@@ -112,15 +112,22 @@
                   </h3>
                 </div>
               </div>
+
               <div class="attend--edit__container">
                 <button
+
                   v-if="!isCurrentUserAttending"
+
                   class="attend__event"
                   type="button"
                   @click="sendAttendEventRequest"
                 >
                   ATTEND
                 </button>
+                <router-link v-else to="/log-in"
+                  ><button class="attend__event">Attend</button>
+                </router-link>
+
                 <button
                   v-else
                   class="attend__event unattend"
@@ -131,7 +138,10 @@
                 </button>
                 <button
                   @click="toggleModal"
-                  v-if="seData.eventData.hostId == uData._id"
+                  v-if="
+                    (seData.eventData.hostId == uData._id) &
+                    (isUserLogedIn == true)
+                  "
                   class="edit__event"
                   type="button"
                 >
@@ -166,7 +176,7 @@
 
           <!-- COMMENT SECTION -->
 
-          <div class="write__comment">
+          <div v-if="isUserLogedIn" class="write__comment">
             <div class="avatar__circle">
               <global-user-icon-vue :uData="uData" />
             </div>
@@ -249,24 +259,20 @@ export default {
   },
   data() {
     return {
-      eventTitle: null,
-      eventLocation: null,
-      eventDate: null,
-      eventTime: null,
-      eventDescription: null,
+
       isCurrentUserAttending: false,
 
+      eventTitle: "",
+      eventLocation: "",
+      eventDate: "",
+      eventTime: "",
+      eventDescription: "",
       isEditMode: false,
       commentInput: "",
     };
   },
 
-  props: ["uData", "seData"],
-  watch: {
-    seData() {
-      this.updateAttendButton();
-    },
-  },
+  props: ["uData", "seData", "isUserLogedIn"],
   methods: {
     updateAttendButton() {
       // get loged in user email
@@ -351,35 +357,49 @@ export default {
       location.reload();
     },
     async updatedEventRequest() {
-      const response = await fetch(
-        `http://localhost:3000/events/hosted/${this.$props.seData.eventData._id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            title: this.eventTitle,
-            time: this.eventTime,
-            date: this.eventDate,
-            location: this.eventLocation,
-            detail: this.eventDescription,
-          }),
-        }
-      );
-      const data = await response.json();
-      // alert(data);
-      // location.reload();
-      this.$emit("specificEventDetail", {
-        _id: data,
-        hostId: this.$props.seData.eventData.hostId,
-        title: this.eventTitle,
-        time: this.eventTime,
-        date: this.eventDate,
-        location: this.eventLocation,
-        detail: this.eventDescription,
-      });
+      if (
+        this.eventTitle != "" &&
+        this.eventLocation != "" &&
+        this.eventDate != "" &&
+        this.eventTime != "" &&
+        this.eventDescription != ""
+      ) {
+        const response = await fetch(
+          `http://localhost:3000/events/hosted/${this.$props.seData.eventData._id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+              title: this.eventTitle,
+              time: this.eventTime,
+              date: this.eventDate,
+              location: this.eventLocation,
+              detail: this.eventDescription,
+            }),
+          }
+        );
+        const data = await response.json();
+        // alert(data);
+        // location.reload();
+        this.$emit("specificEventDetail", {
+          _id: data,
+          hostId: this.$props.seData.eventData.hostId,
+          title: this.eventTitle,
+          time: this.eventTime,
+          date: this.eventDate,
+          location: this.eventLocation,
+          detail: this.eventDescription,
+        });
+
+        alert("Event was updated successfully");
+
+        this.toggleModal();
+      } else {
+        alert("All input fields are required!");
+      }
     },
   },
   computed: {},

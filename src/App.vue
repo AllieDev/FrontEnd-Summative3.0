@@ -108,13 +108,14 @@
             >
               LOG IN
             </router-link>
-            <button
+            <router-link
               v-else
+              to="/"
               @click="logOutUser"
               class="drop-down__logout-btn drop-down__log-btns"
             >
               LOG OUT
-            </button>
+            </router-link>
           </div>
         </div>
         <!-- Dropdown Menu Ends -->
@@ -135,6 +136,7 @@
         :seData="specificEventDetail"
         :uData="userData"
         :eData="isSearching ? searchEventData : eventData"
+        :isUserLogedIn="isUserLogedIn"
         @unvisibleSearchInput="hideSearchInput"
         @visibleSearchInput="showSearchInput"
         @unvisibleNav="makeNavUnvisible"
@@ -229,6 +231,7 @@ export default {
       localStorage.clear();
       location.reload();
       this.isUserLogedIn = false;
+      this.isDropDownVisible = false;
     },
     async createEventRequest(data) {
       if (!data) {
@@ -250,6 +253,8 @@ export default {
           body: formData,
         });
         this.getListOfAllEventsRequest();
+        alert("Your event was successfully created!");
+        router.push("/");
       }
     },
     // ----------------------------------------------------------------
@@ -300,6 +305,9 @@ export default {
         this.userData = data;
         this.isUserLogedIn = true;
         this.$router.replace("/");
+      } else if (data.message && localStorage.getItem("token")) {
+        alert(data.message);
+        localStorage.clear();
       }
       this.getListOfAllEventsRequest();
     },
@@ -317,6 +325,18 @@ export default {
             this.searchEventData.push(event);
           }
         }
+      }
+    },
+    logUserIfUserExists() {
+      const email = localStorage.getItem("userEmailDetail");
+      const password = localStorage.getItem("userPassDetail");
+
+      if (email != null && password != null) {
+        this.submitLoginRequest({
+          email: email,
+          password: password,
+        });
+        // console.log("running on home page!");
       }
     },
   },
@@ -338,10 +358,11 @@ export default {
   },
   created() {
     this.getListOfAllEventsRequest();
-    this.submitLoginRequest({
-      email: localStorage.getItem("userEmailDetail"),
-      password: localStorage.getItem("userPassDetail"),
-    });
+    this.logUserIfUserExists();
+    // this.submitLoginRequest({
+    //   email: localStorage.getItem("userEmailDetail"),
+    //   password: localStorage.getItem("userPassDetail"),
+    // });
   },
 };
 </script>
@@ -434,6 +455,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 .nav__user-icon-create-btn-and-help-btn-container {
   max-width: 380px;
@@ -469,6 +491,7 @@ export default {
   font-size: 30px;
   margin-left: -2rem;
   margin-top: -1rem;
+  cursor: pointer;
 }
 .nav__mobile-search-input {
   display: none;
@@ -623,7 +646,9 @@ export default {
 .router-link:hover {
   margin-top: -20px;
 }
-
+.nav__help-btn {
+  cursor: pointer;
+}
 @media screen and (max-width: 800px) {
   .nav {
     height: 70px;

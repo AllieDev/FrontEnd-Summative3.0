@@ -41,6 +41,7 @@ export default {
   align-items: center;
   max-width: 450px;
   min-width: 450px;
+  cursor: pointer;
 }
 
 .event-card__background {
