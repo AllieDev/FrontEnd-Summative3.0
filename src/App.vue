@@ -236,6 +236,15 @@ export default {
       localStorage.clear();
       this.isUserLogedIn = false;
       this.isDropDownVisible = false;
+      this.userData = {
+        _id: "63197b52f62ff345ce130c62",
+        iconColor: "lightgray",
+        firstName: "Guest",
+        lastName: "",
+        email: "no-gmail@gmail.com",
+        memberSince: "Now",
+        about: "This is a little about me...",
+      }
       router.push("/");
       // location.reload();
     },
