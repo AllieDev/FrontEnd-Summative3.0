@@ -274,7 +274,8 @@ export default {
   props: ["uData", "seData", "isUserLogedIn"],
   methods: {
     updateAttendButton() {
-      console.log("updateAttendButton");
+      if(localStorage.userEmailDetail) {
+        console.log("updateAttendButton");
       // get loged in user email
 
       const currentUserEmail = localStorage.userEmailDetail;
@@ -291,6 +292,7 @@ export default {
       this.isCurrentUserAttending = attendeeList.some(checkEmails);
 
       // if logged in user is attending show unattending button else shoe attending button
+      }
     },
     toggleModal() {
       this.isEditMode = !this.isEditMode;
